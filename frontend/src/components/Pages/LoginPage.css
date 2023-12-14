@@ -1,0 +1,71 @@
+.login-page{
+    display: flex;
+    margin-top: 2%;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 50%;
+}
+
+.login-page label :nth-child(1){
+    display: flex;
+    font-size: 25px;
+    margin-top: 1%;
+    margin-right: 350px;
+    margin-left: auto;
+}
+
+.login-page label{
+    display: flex;
+    font-size: 25px;
+    margin-top: 1%;
+    margin-right: 210px;
+    margin-left: 600px;
+}
+
+.login-page input{
+    font-size: 25px;
+    display: flex;
+    margin-bottom: 1%;
+    width: 200px;
+    margin-left: 2%;
+}
+
+/* div of both submit and signup buttons */
+.submit-and-signup{
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* signup-button */
+
+.signup-button{
+    margin-top: 10px;
+    height: 30px;
+}
+
+.signup-button:hover{
+    cursor: pointer;
+
+}
+
+/* submit button */
+.submit {
+    background-color: yellow;
+    display: block;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    cursor: pointer;
+    height: 60px;
+    width: 100px;
+}
+
+.submit:hover{
+    background-color: rgb(166, 223, 52);
+    font-size: 22px;
+}
+
+

@@ -1,0 +1,44 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.Username-div, .Name-div, .Password-div, .ConfirmPassword-div, .Emailid-div, .Phonenumber-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Username-div :first-child, .Name-div :first-child, .Password-div :first-child, .ConfirmPassword-div :first-child, .Emailid-div :first-child, .Phonenumber-div :first-child{
+    margin-left: 450px;
+    margin-right: 20px;
+    font-size: 25px;
+    font-family: 'Licorice', cursive;
+    font-weight: 600;
+    color: white;
+}
+
+.Username-div :last-child, .Name-div :last-child, .Password-div :last-child , .ConfirmPassword-div :last-child, .Emailid-div :last-child, .Phonenumber-div :last-child{
+    margin-right: 400px;
+    margin-left: auto;
+}
+
+.form input{
+    height: 40px;
+    width: 500px;
+}
+.create-account-button{
+    background-color: aquamarine;
+    height: 40px;
+    margin-top: 10px;
+    margin-left: 450px;
+    width: 685px;
+}
+.create-account-button:hover{
+    cursor: pointer;
+    background-color: green;
+    height: 45px;
+    width: 690px;
+}

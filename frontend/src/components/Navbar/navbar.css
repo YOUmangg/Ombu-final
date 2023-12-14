@@ -1,0 +1,94 @@
+.bar {
+    display: flex;justify-content: center;
+    align-items: center;
+    background-color: #41AFAF;
+}
+
+.home {
+    display: inherit;
+    background-color: #32DE23;
+    height: 50px;
+    width: 150px;
+    justify-content: center;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.clubs {
+    display: inherit;
+    background-color: #CCD934;
+    height: 50px;
+    width: 150px;
+    justify-content: center;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.departments {
+    display: inherit;
+    background-color:  #28B1EC;
+    height: 50px;
+    width: 150px;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.techassocs {
+    display: inherit;
+    background-color: #E77C19;
+    height: 50px;
+    width: 150px;
+    align-self: center;
+    align-content: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.cellsandsocieties {
+    display: inherit;
+    background-color: #1dd7a9;
+    height: 50px;
+    width: 150px;
+    justify-content: center;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.studentbodies {
+    display: inherit;
+    background-color: #cb6ca0;
+    height: 50px;
+    width: 150px;
+    justify-content: center;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.bar li:hover {
+    color: white;
+    background-color: pink;
+    font-size: 105%;
+    cursor: pointer;
+}

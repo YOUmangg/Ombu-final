@@ -1,0 +1,70 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Luxurious+Roman&display=swap');
+
+.EsportsIndividual{
+    height: 1000px;
+}
+
+.first-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Important-topics{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.Ongoing-tasks textarea, .Important-topics textarea{
+    background-color: orange;
+}
+.Ongoing-tasks{
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.Ongoing-tasks button, .Important-topics button{
+    height: 35px;
+}
+
+.textarea {
+    background-color: orange;
+}
+.Esportsimgh{
+    height: 300px;
+    width: 300px;
+    margin-top: 65px;
+}
+
+.createtask11{
+    display : flex;
+    justify-content: right;
+}
+
+.createtask{
+    height: 70px;
+    width: 70px;    
+    /* position: fixed;      */
+    color:yellowgreen;                                  
+}
+
+table { 
+    background-color: aqua;
+    font-family: 'Luxurious Roman', cursive;
+    border: 2px solid forestgreen;
+    width: 1515px;
+    height: 200px;
+    margin-left: 10px;
+}
+ 
+th {
+    border-bottom: 1px solid black;
+}
+ 
+td {
+    text-align: center;
+}
+

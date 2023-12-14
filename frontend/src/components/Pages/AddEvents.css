@@ -1,0 +1,19 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+
+.EventName-div, .EventDescription-div, .EventTime-div, .EventVenue-div, .RegistrationLink-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;    
+}
+.form input{
+    background-color: white;
+    flex-direction: column;
+    height: 40px;
+    width: 500px;
+}

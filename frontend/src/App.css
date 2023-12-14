@@ -1,0 +1,241 @@
+.App {
+    /* background-color: #415d9f; */
+    /* background-color: white; */
+    height: 1000px;
+    background-image: url("../public/global-background.jpg");
+}
+
+.Ombu-top {
+    display: flex;
+    margin-top: 0%;
+    padding-top: 1%;
+    justify-content: center;
+    align-items: baseline;
+    /* align-content: center; */
+    /* font-size: 50px; */
+    font-family: 'Licorice', cursive;
+}
+
+.Clubs-h1 {
+    font-family: 'Licorice', cursive;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.clublist {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px 20px;
+}
+
+.Departmentslist {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px 20px;
+    padding-bottom: 100px;
+}
+
+.Departments-h1{
+    display: flex;
+    color: white;
+    justify-content: center;
+    font-family: 'Licorice';
+}
+
+.Departmentslist li {
+    display: block;
+    border-radius: 20px;
+    padding: 20px;
+    align-self: center;
+    justify-content: center;
+    font-family: 'Licorice';
+    background-color: #28B1EC;
+    font-size: 24px;
+    height: 120px;
+    width: 120px;
+}
+
+.clublist li {
+    display: block;
+    border-radius: 20px;
+    padding: 20px;
+    align-self: center;
+    justify-content: center;
+    font-family: 'Licorice';
+    background-color: #CCD934;
+    font-size: 24px;
+    height: 120px;
+    width: 120px;
+}
+
+.TechAssocs h1{
+    display: flex;
+    color: white;
+    justify-content: center;
+    font-family: 'Licorice';
+}
+
+.techassocslist {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px 20px;
+    padding-bottom: 100px;
+}
+
+.techassocslist li{
+    display: block;
+    border-radius: 20px;
+    padding: 20px;
+    align-self: center;
+    justify-content: center;
+    font-family: 'Licorice';
+    background-color: #E77C19;
+    font-size: 24px;
+    height: 120px;
+    width: 120px;
+}
+
+.cellsandsoc-h1{
+    display: flex;
+    justify-content: center;
+    font-family: 'Licorice';
+}
+
+.cellsandsoclist{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px 20px;
+    padding-bottom: 100px;
+}
+
+.cellsandsoclist li{
+    display: block;
+    border-radius: 20px;
+    padding: 20px;
+    align-self: center;
+    justify-content: center;
+    font-family: 'Licorice';
+    background-color: #1dd7a9;
+    font-size: 24px;
+    height: 120px;
+    width: 120px;
+}
+
+.studbodieslist{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px 20px;
+    padding-bottom: 100px;
+}
+
+.studbodies h1{
+    display: flex;
+    justify-content: center;
+    font-family: 'Licorice';
+}
+
+.studbodieslist li{
+    display: block;
+    border-radius: 20px;
+    padding: 20px;
+    align-self: center;
+    justify-content: center;
+    font-family: 'Licorice';
+    background-color: #cb6ca0;
+    font-size: 24px;
+    height: 120px;
+    width: 120px;
+}
+
+.Home {
+    display: flex;
+    /* font-family: 'Licorice'; */
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.titlebar{
+    display: flex;
+    justify-content: end;
+    gap: 450px;
+}
+
+.Home h1 {
+    display: flex;
+    justify-content: center;
+    font-family: 'Licorice', cursive;
+}
+
+.Login-button {
+    font-family: 'Inter';
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: auto;
+    margin-right: auto;
+    /* position: absolute; */
+    width: 200px;
+    height: 80px;
+    left: 300px;
+    top: 300px;
+    background: #7045AF;
+    cursor: pointer;
+}
+
+.Login-button:hover{
+    color:antiquewhite;
+}
+
+.Task-creator{
+    height: 1000px;
+    margin-top: 10px;
+}
+
+.label-task{
+    font-size: 20px;
+    /* background-color: #7045AF; */
+    margin-top: 20px;
+    color: white;
+}
+
+.Task-creator textarea{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: orange;
+    background-color: #7045AF;
+}
+
+.Task-creator button{
+    display: flex;
+    background-color: #cb6ca0;
+    margin-left: auto;
+    margin-top: 7px;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-style: oblique;
+    margin-right: auto;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100px;
+    cursor: pointer;
+}
+
+.Task-creator button:hover{
+    font-size: 15px;
+    height: 55px;
+    width: 110px;
+    background-color: #CCD934;
+}
