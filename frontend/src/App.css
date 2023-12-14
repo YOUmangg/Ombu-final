@@ -155,6 +155,8 @@
 
 .Home {
     display: flex;
+    font-size: larger;
+    color: white;
     /* font-family: 'Licorice'; */
     justify-content: center;
     flex-wrap: wrap;
@@ -169,7 +171,8 @@
 
 .Home h1 {
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    margin-left: 20%;
     font-family: 'Licorice', cursive;
 }
 

@@ -12,7 +12,7 @@ const Home = () => {
       <p>
         This is an application created by the students of BITS Pilani, Hyderabad
         Campus. Here, you can find the latest updates about all the events going
-        to happen in the campus by various organizations of the campus.
+        to happen by various organizations of the campus.
       </p>
       <h1>Upcoming events</h1>
       <ul>
