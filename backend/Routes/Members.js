@@ -9,7 +9,22 @@ router.get("/", async (req, res) => {
   res.status(200).json(member);
 });
 
-//GET Esports club members list
+router.get("/find", async(req, res) => {
+  const search = { "Username": req.query.Username, "organisationName": req.query.organisationName };
+  try{
+    const member = await Members.find({
+    $and: [
+      {"username" : search.Username},
+      {"organisationName" : search.organisationName}
+    ]
+  })
+  res.status(200).json(member);
+}catch(error)
+{
+  res.status(500).json({error: "Internal Server Error"});
+  }
+})
+//GET Esports club members list //change this to have a req query type thing..
 router.get("/EsportsClub", async (req, res) => {
   const org = "Esports Club"
   const member = await Members.find({ 'organisationName': org });

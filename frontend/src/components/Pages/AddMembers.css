@@ -1,15 +1,22 @@
 .whole-form{
     font-size: 20px;
+    color: white;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .add-member-button{
-    height: 40px;
-    width: 500px;
+    height: 5vh;
+    width: 20vh;
     color: white;
     background-color: rgb(255, 0, 204);
     margin-left: auto;
     margin-right: auto;
+}
+
+.whole-form label input{
+    /* margin-left: 200px; */
+    left: 200px;
+    display: block;
 }
 
 

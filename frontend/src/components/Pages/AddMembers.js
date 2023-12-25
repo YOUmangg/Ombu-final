@@ -7,6 +7,13 @@ const AddMembers = () => {
     //global states
     const valueOrganization = useOrganizationStore((state) => state.Organization);
 
+    //local storage session or session storage? what to use?
+    // var sessorg;
+    console.log(valueOrganization);
+    // sessionStorage.setItem('sessorg', valueOrganization); doesn't survive refresh!
+    var sessorg;
+    localStorage.setItem('sessorg', valueOrganization);
+
     //local states
     const [name, setname] = useState("");
     const [username, setusername] = useState("");
@@ -18,32 +25,39 @@ const AddMembers = () => {
     async function addMember(e) {
         e.preventDefault();
 
-        const addmember = { name: name, username: username, roles: roles, isAdmin: admin, organisationName: valueOrganization };
+        const addmember = { "name": name, "username": username, "roles": roles, "isAdmin": admin, "organisationName": valueOrganization };
 
         //verify if the user exists
         try {
-            const responseUsers = await fetch("/api/Newusers");
-            const dataUsers = await responseUsers.json();
-            const found = dataUsers.find((user) => user.Username === username && user.Name === name);
+            const resp = await fetch(`/api/Newusers/find?Username=${addmember.username}&Name=${addmember.name}`);
+            // const responseUsers = await fetch("/api/Newusers");
+            // const dataUsers = await responseUsers.json();
+            // const found = await dataUsers.find((user) => user.Username === username && user.Name === name);
+            const found22 = await resp.json();
+            console.log(found22);
+            console.log("yea");
 
             //if user exists, add to the organization
-            if (found) {
-
+            if (Object.keys(found22).length > 0) {
+                addmember.phonenumber = found22.Phonenumber;
                 //add the phonenumber of the person as well so that you can show it in the members list
-                dataUsers.map((val) => {
-                    if(val.Username === username){
-                    const phonenumber = val.Phonenumber;
-                    addmember.phonenumber = phonenumber;
-                    return;
-                }
-            })
-                //check if the user is already a member?
-                const responseMembers = await fetch("/api/Members");
-                const dataMembers = await responseMembers.json();
-                const found = dataMembers.find((user) => user.username === username && user.organisationName === valueOrganization)
+                // dataUsers.map((val) => {
+                //     if (val.Username === username) {
+                //         const phonenumber = val.Phonenumber;
+                //         addmember.phonenumber = phonenumber;
+                //         return;
+                //     }
+                // })
 
-                if(found)
-                {
+                //check if the user is already a member?
+                // const responseMembers = await fetch("/api/Members");
+                const responseMembers = await fetch(`/api/Members/find?Username=${addmember.username}&organisationName=${valueOrganization}`);
+                const found = await responseMembers.json();
+                // const dataMembers = await responseMembers.json();
+                // const found = dataMembers.find((user) => user.username === username && user.organisationName === valueOrganization)
+
+                // if (found) {
+                    if(Object.keys(found).length > 0){
                     //notify that the user is already a member of the organization
                     console.log("consumed");
                     setmemstatus(2); //user is already a member
@@ -69,7 +83,7 @@ const AddMembers = () => {
             }
             else {
                 setmemstatus(4);      //the user doesn't exist
-                console.log("notfound")
+                console.log("notfound");
             }
         } catch (error) {
             console.log("Error:", error);
@@ -85,14 +99,14 @@ const AddMembers = () => {
     return (
         <div className="whole-form">
             <form className="form">
-                <div className="Username">
+                <label>
                     Username:
                     <input value={username} onChange={(e) => setusername(e.target.value)}></input>
-                </div>
-                <div className="Name">
+                </label>
+                <label>
                     Name:
                     <input value={name} onChange={(e) => setname(e.target.value)}></input>
-                </div>
+                </label>
                 <label>
                     POR(true or false)?:
                     <input value={admin} onChange={(e) => setadmin(e.target.value)}></input>
@@ -102,12 +116,13 @@ const AddMembers = () => {
                     <input value={roles} onChange={(e) => setroles(e.target.value)}></input>
                 </label>
                 <label>
-                    Organization Name: {valueOrganization}
+                    Organization Name: {localStorage.getItem('sessorg')}
+                    {/* {console.log(sessionStorage.getItem('sessorg'))} */}
                 </label>
-                <button className = "add-member-button" onClick={(e) => addMember(e)}>Add New member</button>
+                <button className="add-member-button" onClick={(e) => addMember(e)}>Add New member</button>
                 {memstatus === 1 && <p>Successfully added the user as a member!</p>}
                 {memstatus === 2 && <p>User is already a member of {valueOrganization}!</p>}
-                {memstatus === 3 && <p>Could not add the user as a member. Contact technical team</p>}
+                {memstatus === 3 && <p>Could not add the user as a member. Contact technical mistri umang <email>@f20202487@hyderabad.bits-pilani.ac.in</email></p>}
                 {memstatus === 4 && <p>The user does not exist</p>}
             </form>
         </div>
