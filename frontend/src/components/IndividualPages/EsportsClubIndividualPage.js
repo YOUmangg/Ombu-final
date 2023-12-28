@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import ProgressSheet from "../ProgressSheet";
 import useMembersStore from "../ZustandStates/MembersListState";
 import useProgressSheetStore from "../ZustandStates/ProgressSheetState";
+import useOrganizationStore from "../ZustandStates/OrganizationNameState";
 
 const EsportsClubIndividualPage = () => {
 
@@ -18,6 +19,7 @@ const EsportsClubIndividualPage = () => {
   const valueMem = useMembersStore((state) => state.Members);
   const valueSet = useMembersStore((state) => state.setMembersState);
   const valueSetProgress = useProgressSheetStore((state) => state.setProgressState);
+  const OrganizationName = useOrganizationStore((state) => state.OrganizationName);
 
   //update important points
   const handleUpdate = () => { };
@@ -25,17 +27,30 @@ const EsportsClubIndividualPage = () => {
   //update ongoing tasks
   const handleongoingtasks = () => { };
 
-  //Inside the useEffect, using the get function to collect all the members data. This function could have been modified
-  //to be executed after someone taps on the members list button, but implemented it earlier for checking purpose, 
-  //can be edited later on. Doesn't matter much for now.
-  useEffect(() => {
-     fetch("/api/Members/EsportsClub").then((response) =>
+ //the useEffect block was not working when user pressed back from add members or some other page. so, used this async function 
+ //instead.
+  async function init() {
+    await fetch("/api/Members/EsportsClub").then((response) =>
       response
         .json()
         .then((data) => setMembers(data))
-        .catch((error) => console.error("Error:", error))
+        .catch((error) => console.error("Error:", error))  
     );
-  }, []);
+    valueSetProgress(() => valueSetProgress(setMembers))
+  } 
+    // valueSetProgress(() => valueSetProgress(setMembers))
+  //Inside the useEffect, using the get function to collect all the members data. This function could have been modified
+  //to be executed after someone taps on the members list button, but implemented it earlier for checking purpose, 
+  //can be edited later on. Doesn't matter much for now.
+  // useEffect(() => {
+  //    fetch("/api/Members/EsportsClub").then((response) =>
+  //     response
+  //       .json()
+  //       .then((data) => setMembers(data))
+  //       .catch((error) => console.error("Error:", error))  
+  //   );
+  //   // valueSetProgress(() => valueSetProgress(setMembers))
+  // }, []);
 
   //giving the value of members to the global state
   const givevalue = (members) => {

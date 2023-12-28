@@ -11,7 +11,6 @@ router.get("/", async (req, res) => {
 
 //Find a member
 router.get("/find", async (req, res) => {
-
   //search object creation
   const search = {"Name": req.query.Name, "Username": req.query.Username};
 

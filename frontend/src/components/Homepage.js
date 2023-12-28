@@ -15,6 +15,8 @@ const Home = () => {
         to happen by various organizations of the campus.
       </p>
       <h1>Upcoming events</h1>
+            {/*  get all events*/}
+      {/* {async function () => {const allevents = await fetch("/api/Events/")}} */}
       <ul>
         <li>BGMI Tournament by Esports Club</li>
       </ul>

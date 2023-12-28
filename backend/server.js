@@ -9,6 +9,7 @@ const client = new MongoClient(uri, { useUnifiedTopology: true });
 const MemberRoutes = require("./Routes/Members");
 const TasksRoutes = require("./Routes/Tasks");
 const SignUpRoutes = require("./Routes/Newusers");
+const EventsRoutes = require("./Routes/Events");
 const mongoose = require("mongoose");
 
 //middleware
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 app.use("/api/Members", MemberRoutes);
 app.use("/api/Newusers", SignUpRoutes);
 app.use("/api/Tasks", TasksRoutes);
+app.use("/api/Events", EventsRoutes);
 
 // connect to db
 mongoose
