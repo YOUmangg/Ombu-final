@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import useEventsStore from "../ZustandStates/EventsState";
 import useOrganizationStore from "../ZustandStates/OrganizationNameState";
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css'
+import TimePicker from 'react-time-picker';
+import 'react-datepicker/dist/react-datepicker.css';
 import "./AddEvents.css";
 
 const AddEvents = () => {
@@ -14,6 +15,7 @@ const AddEvents = () => {
   const [EventVenue, setEventVenue] = useState("");
   const [RegistrationLink, setRegistrationLink] = useState("");
   const [Date, setDate] = useState(null);
+  const [Time, setTime] = useState('7:00');
 
   //global states
   const eventHeadliner = useEventsStore((state) => state.Event);
@@ -43,7 +45,8 @@ const AddEvents = () => {
       "EventName" : EventName, 
       "EventDescription" : EventDescription, 
       "EventDate" : Date.toISOString(),
-      "EventTime" : EventTime, 
+      "EventTime" : Time, 
+      // EventTime, 
       "EventVenue" : EventVenue, 
       "RegistrationLink" : RegistrationLink, 
       "OrganizationName": OrganizationName
@@ -97,10 +100,11 @@ const AddEvents = () => {
         </div>
         <div className="EventTime-div">
         <label>Event Time: </label>
-        <input
+        <TimePicker selected={Time} onChange = {(Time) => setTime(Time)}></TimePicker>
+        {/* <input
           value={EventTime}
           onChange={(e) => setEventTime(e.target.value)}
-        ></input>
+        ></input> */}
         </div>
         <div className="EventVenue-div">
         <label>Event venue: </label>

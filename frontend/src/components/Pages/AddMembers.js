@@ -30,9 +30,6 @@ const AddMembers = () => {
         //verify if the user exists
         try {
             const resp = await fetch(`/api/Newusers/find?Username=${addmember.username}&Name=${addmember.name}`);
-            // const responseUsers = await fetch("/api/Newusers");
-            // const dataUsers = await responseUsers.json();
-            // const found = await dataUsers.find((user) => user.Username === username && user.Name === name);
             const found22 = await resp.json();
             console.log(found22);
             console.log("yea");
@@ -40,21 +37,10 @@ const AddMembers = () => {
             //if user exists, add to the organization
             if (Object.keys(found22).length > 0) {
                 addmember.phonenumber = found22.Phonenumber;
-                //add the phonenumber of the person as well so that you can show it in the members list
-                // dataUsers.map((val) => {
-                //     if (val.Username === username) {
-                //         const phonenumber = val.Phonenumber;
-                //         addmember.phonenumber = phonenumber;
-                //         return;
-                //     }
-                // })
 
                 //check if the user is already a member?
-                // const responseMembers = await fetch("/api/Members");
                 const responseMembers = await fetch(`/api/Members/find?Username=${addmember.username}&organisationName=${valueOrganization}`);
                 const found = await responseMembers.json();
-                // const dataMembers = await responseMembers.json();
-                // const found = dataMembers.find((user) => user.username === username && user.organisationName === valueOrganization)
 
                 // if (found) {
                     if(Object.keys(found).length > 0){

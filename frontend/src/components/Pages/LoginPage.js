@@ -46,7 +46,7 @@ const Login = () => {
       const found = dataUsers.find((user) => user.Username === username && user.Password === password);
 
       if (found) {
-        const responseMembers = await fetch("api/Members");
+        const responseMembers = await fetch("/api/Members");
         const dataMembers = await responseMembers.json();
         const newfound = dataMembers.find((user) => user.username === username && user.organisationName === organization);
 

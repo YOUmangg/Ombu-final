@@ -163,6 +163,33 @@
     flex-direction: column;
 }
 
+.Home button{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    font-size: 17px;
+    padding: 20px 30px;
+    /* border-color: magenta; */
+    background-color: lightblue;
+    margin-bottom: 3px;
+}
+
+.pop-up-box {
+    transition: all 3s ease-in-out;
+    display: block;
+    position: relative;
+    width: 49%;
+    opacity: 1;
+    background-color: lightblue;
+    color: black;
+    border-radius: 8px;
+}
+
+.Home button:hover{
+    cursor: pointer;
+    background-color: rgb(101, 156, 175);
+}
+
 .titlebar{
     display: flex;
     justify-content: end;

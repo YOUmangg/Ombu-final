@@ -23,26 +23,26 @@ const TaskCreator = () => {
     console.log(valueOrganization);
 
     const newtask = {
-      name: taskname,
-      username: username,
-      description: description,
-      roles: roles,
-      deadline: deadline,
-      score: score,
-      organizationName: valueOrganization,
+      "name": taskname,
+      "username": username,
+      "description": description,
+      "roles": roles,
+      "deadline": deadline,
+      "score": score,
+      "organizationName": valueOrganization,
     }
 
     try {
-      
       //check if the username is a member of the organization
-      const responseMembers = await fetch("/api/Members")
-      const dataMembers = await responseMembers.json();
-      const found = dataMembers.find((user) => user.username === username && user.organisationName === valueOrganization)
+      const responseMembers = await fetch(`/api/Members/find?Username=${newtask.username}&Name=${newtask.name}`);
+      // const dataMembers = await responseMembers.json();
+      const found = await responseMembers.json();
+      // const found = dataMembers.find((user) => user.username === username && user.organisationName === valueOrganization)
 
       if (found) {
 
         //add the name of the person as well so that you can show it in the progress sheet
-        dataMembers.map((val) => {
+        found.map((val) => {
           if (val.username === username) {
             console.log("wereached here");
             const nameofper = val.name;
