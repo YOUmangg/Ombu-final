@@ -22,7 +22,7 @@ const TaskCreator = () => {
     e.preventDefault();
     console.log(valueOrganization);
 
-    const newtask = {
+    var newtask = {
       "name": taskname,
       "username": username,
       "description": description,
@@ -34,7 +34,7 @@ const TaskCreator = () => {
 
     try {
       //check if the username is a member of the organization
-      const responseMembers = await fetch(`/api/Members/find?Username=${newtask.username}&Name=${newtask.name}`);
+      const responseMembers = await fetch(`/api/Members/find?Username=${newtask.username}&organisationName=${newtask.organizationName}`);
       // const dataMembers = await responseMembers.json();
       const found = await responseMembers.json();
       // const found = dataMembers.find((user) => user.username === username && user.organisationName === valueOrganization)
@@ -42,14 +42,16 @@ const TaskCreator = () => {
       if (found) {
 
         //add the name of the person as well so that you can show it in the progress sheet
-        found.map((val) => {
-          if (val.username === username) {
-            console.log("wereached here");
-            const nameofper = val.name;
-            newtask['nameofperson'] = nameofper;
-            return;
-          }
-        })
+        newtask['nameofperson'] = found.name;
+        console.log(found);
+        // found.map((val) => {
+        //   if (val.username === username) {
+        //     console.log("wereached here");
+        //     const nameofper = val.name;
+        //     newtask['nameofperson'] = nameofper;
+        //     return;
+        //   }
+        // })
 
         //create the task
         const response = await fetch("/api/Tasks", {

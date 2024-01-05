@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
 router.get("/find", async(req, res) => {
   const search = { "Username": req.query.Username, "organisationName": req.query.organisationName };
   try{
-    const member = await Members.find({
+    const member = await Members.findOne({
     $and: [
       {"username" : search.Username},
       {"organisationName" : search.organisationName}
