@@ -1,25 +1,24 @@
 import React, { useState } from "react";
-import useEventsStore from "../ZustandStates/EventsState";
 import useOrganizationStore from "../ZustandStates/OrganizationNameState";
 import DatePicker from 'react-datepicker';
-import TimePicker from 'react-time-picker';
-import 'react-datepicker/dist/react-datepicker.css';
-import "./AddEvents.css";
+// import 'react-datepicker/dist/react-datepicker.css';
+// import "../Pages/AddEvents.css";
+// import "../src/App.css";
 
-const AddEvents = () => {
+const AddInductionNotice = () => {
 
   //local states
-  const [EventName, setEventName] = useState("");
-  const [EventDescription, setEventDescription] = useState("");
-  const [EventTime, setEventTime] = useState("");
-  const [EventVenue, setEventVenue] = useState("");
-  const [RegistrationLink, setRegistrationLink] = useState("");
-  const [Date, setDate] = useState(null);
+  const [Description, setDescription] = useState("");
+//   const [Time, EventTime] = useState("");
+  const [Venue, setVenue] = useState("");
+  const [Link, setLink] = useState("");
+  const [Deadline, setDeadline] = useState(null);
+  const [Batches, setBatches] = useState("All");
   const [Time, setTime] = useState('7:00');
 
   //global states
-  const eventHeadliner = useEventsStore((state) => state.Event);
-  const seteventHeadliner = useEventsStore((state) => state.setEventState);
+//   const eventHeadliner = useEventsStore((state) => state.Event);
+//   const seteventHeadliner = useEventsStore((state) => state.setEventState);
   const OrganizationName = useOrganizationStore((state) => state.Organization);
   const setOrganizationName = useOrganizationStore((state) => state.setOrganizationState);
 
@@ -41,13 +40,14 @@ const AddEvents = () => {
   //form submit actions
   const handler = async (e) => {
     e.preventDefault();
-    const event = {
-      "EventName" : EventName, 
-      "EventDescription" : EventDescription, 
-      "EventDate" : Date.toISOString(),
-      "EventTime" : Time, 
-      "EventVenue" : EventVenue, 
-      "RegistrationLink" : RegistrationLink, 
+    const Induction = {
+    //   "EventName" : EventName, 
+      "Description" : Description, 
+    //   "Deadline" : Deadline,
+      "Deadline" : Deadline.toISOString(),
+      "Batches" : Batches, 
+      "Venue" : Venue, 
+      "Link" : Link, 
       "OrganizationName": OrganizationName
     };
     //post directly. If you want to check for something, try checking if the exact object exists in the database or not. 
@@ -55,9 +55,9 @@ const AddEvents = () => {
     // the current time. if the current time is greater than event time, don't display it on the homepage. //this needs to be added
     //on the homepage.
     try{
-      const response = await fetch("/api/Events", {
+      const response = await fetch("/api/Inductions", {
         method : "POST",
-        body: JSON.stringify(event),
+        body: JSON.stringify(Induction),
         headers: {
           "Content-type": "application/json",
         },
@@ -73,56 +73,48 @@ const AddEvents = () => {
     catch (error){
       console.log("Error: ", error);
     }
-    seteventHeadliner(EventName);
+    // seteventHeadliner(EventName);
   }
 
   return (
     <div className="form">
-      <form onSubmit = { handler}>
-        <div className="EventName-div">
-        <label >Event Name: </label>
-        <input
-          value={EventName}
-          onChange={(e) => setEventName(e.target.value)}
-        ></input>
-        </div>
+      <form onSubmit = { handler }>
         <div className="EventDescription-div">
-        <label>Event Description: </label>
+        <label>Description: </label>
         <input
-          value={EventDescription}
-          onChange={(e) => setEventDescription(e.target.value)}
+          value={Description}
+          onChange={(e) => setDescription(e.target.value)}
         ></input>
         </div>
         <div className="EventDate-div">
-          <label> Event Date: </label>
-          < DatePicker selected={Date} onChange={(Date) => setDate(Date)} />
-        </div>
-        <div className="EventTime-div">
-        <label>Event Time: </label>
-        <TimePicker selected={Time} onChange = {(Time) => setTime(Time)}></TimePicker>
-        {/* <input
-          value={EventTime}
-          onChange={(e) => setEventTime(e.target.value)}
-        ></input> */}
+          <label> Deadline: </label>
+          <DatePicker selected={Deadline} onChange={(Deadline) => setDeadline(Deadline)} />
         </div>
         <div className="EventVenue-div">
-        <label>Event venue: </label>
+        <label>Eligibility: </label>
         <input
-          value={EventVenue}
-          onChange={(e) => setEventVenue(e.target.value)}
+          value={Batches}
+          onChange={(e) => setBatches(e.target.value)}
+        ></input>
+        </div>
+        <div className="EventVenue-div">
+        <label>Venue: </label>
+        <input
+          value={Venue}
+          onChange={(e) => setVenue(e.target.value)}
         ></input>
         </div>
         <div className="RegistrationLink-div">
-        <label>Registration Link: </label>
+        <label>Link: </label>
         <input
-          value={RegistrationLink}
-          onChange={(e) => setRegistrationLink(e.target.value)}
+          value={Link}
+          onChange={(e) => setLink(e.target.value)}
         ></input>
         </div>
-        <button type = "submit">Create New Event</button>
+        <button type = "submit">Create Induction Notice </button>
       </form>
     </div>
   );
 };
 
-export default AddEvents;
+export default AddInductionNotice;

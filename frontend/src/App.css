@@ -159,20 +159,44 @@
     color: white;
     /* font-family: 'Licorice'; */
     justify-content: center;
+    /* align-items: safe; */
     flex-wrap: wrap;
     flex-direction: column;
-}
+ } 
 
 .Home button{
     display: flex;
     flex-direction: row;
-    width: 50%;
+    width: 49%;
     font-size: 17px;
     padding: 20px 30px;
     /* border-color: magenta; */
-    background-color: lightblue;
+    /* background-color: lightblue; */
+    background-image: linear-gradient(to right, rgb(172, 92, 172,1), rgb(255, 255, 79));
     margin-bottom: 3px;
 }
+
+/* .Home .EandI .InductionsHome{
+    display: flex;
+    flex-direction: column;
+    flex-flow: wrap;
+    align-self: stretch;
+    align-content: flex-start;
+    justify-content: end;
+    position: inline; 
+} */
+
+.Home .EandI .InductionsHome button{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 49%;
+    font-size : 17px;
+    padding : 20px 30px;
+    margin-bottom: 3px;
+    align-self: flex-start;
+}
+
 
 .pop-up-box {
     transition: all 3s ease-in-out;
@@ -181,6 +205,7 @@
     width: 49%;
     opacity: 1;
     background-color: lightblue;
+    background-image: linear-gradient(to right, rgb(172, 92, 172,1), rgb(255, 255, 79));
     color: black;
     border-radius: 8px;
 }

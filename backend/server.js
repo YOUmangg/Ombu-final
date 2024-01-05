@@ -10,6 +10,7 @@ const MemberRoutes = require("./Routes/Members");
 const TasksRoutes = require("./Routes/Tasks");
 const SignUpRoutes = require("./Routes/Newusers");
 const EventsRoutes = require("./Routes/Events");
+const InductionsRoutes = require("./Routes/Induction");
 const mongoose = require("mongoose");
 
 //middleware
@@ -25,6 +26,7 @@ app.use("/api/Members", MemberRoutes);
 app.use("/api/Newusers", SignUpRoutes);
 app.use("/api/Tasks", TasksRoutes);
 app.use("/api/Events", EventsRoutes);
+app.use("/api/Inductions", InductionsRoutes);
 
 // connect to db
 mongoose

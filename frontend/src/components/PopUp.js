@@ -8,11 +8,11 @@ const PopUp = ({data}) => {
     return (
         <div className="pop-up-box">
             {/* <h2>{data.EventName}</h2> */}
-            <h4>Description: {data.EventDescription}</h4>
-            <h4>Venue: {data.EventVenue}</h4>
-            <h4>Date: {date}</h4>
-            <h4>Time: {data.EventTime}</h4>
-            <h4>Registration Link: {data.RegistrationLink} </h4>
+            <h4>➡️Description: {data.EventDescription}</h4>
+            <h4>➡️Venue: {data.EventVenue}</h4>
+            <h4>➡️Date: {date}</h4>
+            <h4>➡️Time: {data.EventTime}</h4>
+            <h4>➡️Registration Link: {data.RegistrationLink} </h4>
         </div>
     )
 }

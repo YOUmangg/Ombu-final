@@ -7,7 +7,7 @@ import useMembersStore from "../ZustandStates/MembersListState";
 import useProgressSheetStore from "../ZustandStates/ProgressSheetState";
 import useOrganizationStore from "../ZustandStates/OrganizationNameState";
 
-const EsportsClubIndividualPage = () => {
+const IndividualPage = () => {
 
   //need to keep a variable which tells if the user logging in is an admin or not
 
@@ -33,7 +33,7 @@ const EsportsClubIndividualPage = () => {
  useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await fetch("/api/Members/EsportsClub");
+      const response = await fetch(`/api/Members/${OrganizationName}`);
       const data = await response.json();
       setMembers(data);
     } catch (error) {
@@ -54,30 +54,7 @@ const EsportsClubIndividualPage = () => {
   }
   fetchData();
   fetchData2();
-}, [OrganizationName]); // The empty dependency array ensures that the effect runs once on mount
-// console.log(allevents);
-//   async function init() {
-//     await fetch("/api/Members/EsportsClub").then((response) =>
-//       response
-//         .json()
-//         .then((data) => setMembers(data))
-//         .catch((error) => console.error("Error:", error))  
-//     );
-//     valueSetProgress(() => valueSetProgress(setMembers))
-//   } 
-    // valueSetProgress(() => valueSetProgress(setMembers))
-  //Inside the useEffect, using the get function to collect all the members data. This function could have been modified
-  //to be executed after someone taps on the members list button, but implemented it earlier for checking purpose, 
-  //can be edited later on. Doesn't matter much for now.
-  // useEffect(() => {
-  //    fetch("/api/Members/EsportsClub").then((response) =>
-  //     response
-  //       .json()
-  //       .then((data) => setMembers(data))
-  //       .catch((error) => console.error("Error:", error))  
-  //   );
-  //   // valueSetProgress(() => valueSetProgress(setMembers))
-  // }, []);
+}, [OrganizationName]);
 
   //giving the value of members to the global state
   const givevalue = (members) => {
@@ -155,4 +132,4 @@ const EsportsClubIndividualPage = () => {
   );
 };
 
-export default EsportsClubIndividualPage;
+export default IndividualPage;

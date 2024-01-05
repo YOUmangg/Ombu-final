@@ -16,6 +16,7 @@ import MembersList from "./MembersList";
 import SignUpPage from "./Pages/SignUpPage";
 import AddEvents from "./Pages/AddEvents";
 import AddMembers from "./Pages/AddMembers";
+import AddInductionNotice from "./IndividualPages/AddInductionNotice";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -24,10 +25,12 @@ const AnimatedRoutes = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/LoginPage" element={<Login />} />
+        <Route path = "/AddInductionNotice" element = {<AddInductionNotice/>}/>
         <Route
           path="/EsportsClubIndividualPage"
           element={<EsportsClubIndividualPage />}
         />
+        
         <Route path = "/AddMembers" element = {<AddMembers/>} />
         <Route path = "/SignUpPage" element = {<SignUpPage/>} />
         <Route path = "/AddEvents" element = {<AddEvents/>} />

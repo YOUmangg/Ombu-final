@@ -1,12 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+// import AddInductionNotice from "./IndividualPages/AddInductionNotice.js";
 import "../App.css";
 import PopUp from "./PopUp.js";
 
 const Home = () => {
   const [allevents, setAllEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [allInductions, setallInductions] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,19 +20,29 @@ const Home = () => {
         console.error("Error fetching events:", error);
       }
     };
+    const fetchData2 = async () => {
+      try {
+        const resp = await fetch("/api/Inductions");
+        const inductions = await resp.json();
+        setallInductions(inductions);
+      }
+      catch (error) {
+        console.error("Error fetching Inductions: ", error);
+      }
+    }
 
     fetchData();
+    fetchData2();
   }, []); // The empty dependency array ensures that the effect runs once on mount
   console.log(allevents);
 
   const handleOnClick = (eventData) => {
-     if(selectedEvent === null)
-     {
+    if (selectedEvent === null) {
       setSelectedEvent(eventData);
-     }
-     else{
+    }
+    else {
       setSelectedEvent(null);
-     }
+    }
     //  setSelectedEvent(eventData);
     //  return (<PopUp data={eventData}></PopUp>);
   };
@@ -51,23 +63,43 @@ const Home = () => {
         Campus. Here, you can find the latest updates about all the events going
         to happen by various organizations of the campus.
       </p>
-      <h1>Upcoming events</h1>
-      <ul>
-        {allevents.map((val, key) => {
-          return (
-            //onClick, open a dialog box, giving more details about the event.
-            <div>
-            <button onClick={() => handleOnClick(val)} key={key}><strong>{val.EventName}</strong> &nbsp; by &nbsp; <strong>{val.OrganizationName}</strong> &nbsp; on &nbsp; {val.EventDate}</button>
-            {selectedEvent && selectedEvent === val && (
-              <div className="popup-overlay" onClick={handleClosePopUp}>
-                <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-                  <PopUp data={selectedEvent} />
+      <div className="EandI">
+        <div className="EventsHome">
+          <h1>Upcoming events</h1>
+          <ul>
+            {allevents.map((val, key) => {
+              return (
+                //onClick, open a dialog box, giving more details about the event.
+                <div>
+                  <button onClick={() => handleOnClick(val)} key={key}><strong>{val.EventName}</strong> &nbsp; by &nbsp; <strong>{val.OrganizationName}</strong> &nbsp; on &nbsp; {val.EventDate}</button>
+                  {selectedEvent && selectedEvent === val && (
+                    <div className="popup-overlay" onClick={handleClosePopUp}>
+                      <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+                        <PopUp data={selectedEvent} />
+                      </div>
+                    </div>
+                  )}</div>
+              );
+            })}
+          </ul>
+        </div>
+        <div className="InductionsHome">
+          <h1>Induction Notices</h1>
+          {/* {allInductions && {
+            (<div>no</div>)
+          }
+          }; */}
+          <ul>
+            {allInductions && allInductions.map((val, key) => {
+              return (
+                <div>
+                  <button>{val.OrganizationName}</button>
                 </div>
-              </div>
-            )}</div>
-          );
-        })}
-      </ul>
+              )
+            })}
+          </ul>
+        </div>
+      </div>
     </motion.div>
   );
 };
