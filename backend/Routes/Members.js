@@ -25,8 +25,13 @@ router.get("/find", async(req, res) => {
   }
 })
 //GET Esports club members list //change this to have a req query type thing..
-router.get("/EsportsClub", async (req, res) => {
-  const org = "Esports Club"
+// router.get("/EsportsClub", async (req, res) => {
+//   const org = "Esports Club"
+//   const member = await Members.find({ 'organisationName': org });
+//   res.status(200).json(member);
+// });
+router.get("/MembersList", async (req, res) => {
+  const org = req.query.OrganizationName;
   const member = await Members.find({ 'organisationName': org });
   res.status(200).json(member);
 });

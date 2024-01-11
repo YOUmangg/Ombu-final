@@ -17,12 +17,14 @@ import SignUpPage from "./Pages/SignUpPage";
 import AddEvents from "./Pages/AddEvents";
 import AddMembers from "./Pages/AddMembers";
 import AddInductionNotice from "./IndividualPages/AddInductionNotice";
+import GeneralPage from "./IndividualPages/AllGeneralPage";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
     <AnimatePresence>
       <Routes location={location} key={location.pathname}>
+        <Route path="/AllGeneralPage" element = {<GeneralPage/>} />
         <Route path="/" element={<Home />} />
         <Route path="/LoginPage" element={<Login />} />
         <Route path = "/AddInductionNotice" element = {<AddInductionNotice/>}/>

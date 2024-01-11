@@ -33,7 +33,7 @@ const EsportsClubIndividualPage = () => {
  useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await fetch("/api/Members/EsportsClub");
+      const response = await fetch(`/api/Members/MembersList${OrganizationName}`);
       const data = await response.json();
       setMembers(data);
     } catch (error) {
