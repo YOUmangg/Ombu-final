@@ -1,6 +1,6 @@
 ﻿# Ombu - Easy Managing
 Ombu - Easy Managing is a web application created for smooth managing of student bodies and co-ordination of various events happening in the campus. 
-The web application has been created using the MERN Stack, along with Mongoose, Express and Zustand.
+The web application has been created using the MERN Stack, along with Mongoose and Zustand.
 
 # Managing
 - **Task creation** : Tasks can be created by the _admins_ of a particular organization for their members. These tasks can be allotted to the registered members of the organization. 
