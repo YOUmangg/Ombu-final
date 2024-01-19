@@ -32,8 +32,13 @@ router.get("/find", async(req, res) => {
 // });
 router.get("/MembersList", async (req, res) => {
   const org = req.query.OrganizationName;
+  try{
   const member = await Members.find({ 'organisationName': org });
   res.status(200).json(member);
+  }catch(error)
+  {
+    res.status(404).json({error: "Internal"});
+  }
 });
 
 //Signin check, particular members, only with organization.

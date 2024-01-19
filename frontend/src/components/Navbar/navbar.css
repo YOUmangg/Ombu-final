@@ -2,9 +2,13 @@
     display: flex;justify-content: center;
     align-items: center;
     background-color: #41AFAF;
+    /* background-color: #c75376; */
+    /* background-image: radial-gradient(circle, magenta 10%, yellow 20%, green); */
     /* background: transparent; */
 }
-
+a {
+    text-decoration: none;
+}
 .home {
     display: inherit;
     background-color: #32DE23;

@@ -58,17 +58,47 @@
     width: 120px;
 }
 
+.clublist {
+    display: flex;
+    flex-flow: row wrap;
+}
 .clublist li {
     display: block;
+    /* flex-wrap: wrap; */
     border-radius: 20px;
     padding: 20px;
     align-self: center;
     justify-content: center;
     font-family: 'Licorice';
     background-color: #CCD934;
+    background-image: linear-gradient(yellow, rgb(63, 218, 63));
     font-size: 24px;
     height: 120px;
     width: 120px;
+}
+
+.clublist li :hover{
+    z-index: 2;
+    height: 105%;
+    width: 110%;
+    border-radius: 20px;
+    font-size: 27px;
+    background-image: linear-gradient(yellow, rgb(77, 226, 77));
+    background-color: #28B1EC;
+}
+
+.clublist button {
+    display: flex;
+    /* align-items: center;
+    align-content: center;
+    justify-content: center; */
+    font-family: 'Licorice';
+    font-size: 24px;
+    height: 120px;
+    width: 120px;
+    background-color: transparent; 
+    /* background-color: #CCD934; */
+    border: none;
 }
 
 .TechAssocs h1{

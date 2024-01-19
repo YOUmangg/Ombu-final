@@ -18,6 +18,7 @@ import AddEvents from "./Pages/AddEvents";
 import AddMembers from "./Pages/AddMembers";
 import AddInductionNotice from "./IndividualPages/AddInductionNotice";
 import GeneralPage from "./IndividualPages/AllGeneralPage";
+import IndividualPage from "./IndividualPages/AllPage";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -25,6 +26,7 @@ const AnimatedRoutes = () => {
     <AnimatePresence>
       <Routes location={location} key={location.pathname}>
         <Route path="/AllGeneralPage" element = {<GeneralPage/>} />
+        <Route path = "/AllPage" element = {<IndividualPage/>} />
         <Route path="/" element={<Home />} />
         <Route path="/LoginPage" element={<Login />} />
         <Route path = "/AddInductionNotice" element = {<AddInductionNotice/>}/>

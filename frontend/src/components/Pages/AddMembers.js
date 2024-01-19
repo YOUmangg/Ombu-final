@@ -26,28 +26,30 @@ const AddMembers = () => {
         e.preventDefault();
 
         const addmember = { "name": name, "username": username, "roles": roles, "isAdmin": admin, "organisationName": valueOrganization };
-
+        console.log(addmember);
         //verify if the user exists
         try {
-            const resp = await fetch(`/api/Newusers/find?Username=${addmember.username}&Name=${addmember.name}`);
+            const resp = await fetch(`/api/Newusers/find?Username=${addmember.username}`);
             const found22 = await resp.json();
             console.log(found22);
             console.log("yea");
 
             //if user exists, add to the organization
             if (Object.keys(found22).length > 0) {
+                console.log("Here");
                 addmember.phonenumber = found22.Phonenumber;
 
                 //check if the user is already a member?
                 const responseMembers = await fetch(`/api/Members/find?Username=${addmember.username}&organisationName=${valueOrganization}`);
                 const found = await responseMembers.json();
 
-                // if (found) {
-                    if(Object.keys(found).length > 0){
-                    //notify that the user is already a member of the organization
-                    console.log("consumed");
-                    setmemstatus(2); //user is already a member
-                    return;
+                if (found) {
+                    if (Object.keys(found).length > 0) {
+                        //notify that the user is already a member of the organization
+                        console.log("consumed");
+                        setmemstatus(2); //user is already a member
+                        return;
+                    }
                 }
 
                 //not a member, add the person

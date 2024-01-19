@@ -58,11 +58,6 @@ const Home = () => {
       animate={{ x: 0, transition: { delay: 0.5, duration: 1 } }}
       exit={{ opacity: 0, x: '-100%', transition: { duration: 0.7 } }}
     >
-      <p>
-        This is an application created by the students of BITS Pilani, Hyderabad
-        Campus. Here, you can find the latest updates about all the events going
-        to happen by various organizations of the campus.
-      </p>
       <div className="EandI">
         <div className="EventsHome">
           <h1>Upcoming events</h1>

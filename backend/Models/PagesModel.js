@@ -6,11 +6,13 @@ const mongoose = require("mongoose"); //for creating schemas, you require mongoo
 const Schema = mongoose.Schema;
 
 const PagesSchema = new Schema({
-//   EventName: { type: String, required: true },
-  Name: {type: String, required: true},
-  GeneralDescription: {type: String, required: true},
-  HotTopics: {type: String, required: true},
-}, {timestamps: true});
+  //   EventName: { type: String, required: true },
+  Name: { type: String, required: true },
+  GeneralDescription: { type: String, required: true },
+  HotTopics: { type: String, required: true },
+  PORs: { type: [String], required: false, default: [] },
+  Tips: { type: String, required: false },
+}, { timestamps: true });
 
 module.exports = mongoose.model('PagesModel', PagesSchema)
 

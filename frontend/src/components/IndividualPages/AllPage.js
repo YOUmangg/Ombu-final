@@ -33,6 +33,7 @@ const IndividualPage = () => {
  useEffect(() => {
   const fetchData = async () => {
     try {
+      console.log("organization name new part", OrganizationName);
       const response = await fetch(`/api/Members/${OrganizationName}`);
       const data = await response.json();
       setMembers(data);
@@ -54,7 +55,7 @@ const IndividualPage = () => {
   }
   fetchData();
   fetchData2();
-}, [OrganizationName]);
+}, []);
 
   //giving the value of members to the global state
   const givevalue = (members) => {
@@ -89,7 +90,7 @@ const IndividualPage = () => {
           src="../../../EsportsClubLogo.jpg"
           alt="logo"
         />
-        <div className="Ongoing-tasks">
+        {/* <div className="Ongoing-tasks">
           <h3>Ongoing Tasks</h3>
           <textarea
             style={{
@@ -101,7 +102,8 @@ const IndividualPage = () => {
             placeholder="Ongoing tasks"
           ></textarea>
           <button onClick={handleongoingtasks}>Update Ongoing Tasks</button>
-        </div>
+        </div> */}
+        
       </div>
       <div className="createtask11">
         <Link to="../TaskCreator">

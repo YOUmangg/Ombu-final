@@ -25,14 +25,14 @@ const Clubs = () => {
         <h1 className="Clubs-h1">Clubs</h1>
       </div>
       <ul className="clublist">
-        <li><button onClick={() => handleClick("Comedy Club")}><Link to = "/AllGeneralPage">Comedy Club</Link></button></li>
-        <li><button onClick={() => handleClick("Cooking Club")}><Link to = "/AllGeneralPage">Cooking Club</Link></button></li>
+        <li><button onClick={() => handleClick("Comedy Club")}><Link to="/AllGeneralPage">Comedy Club</Link></button></li>
+        <li><button onClick={() => handleClick("Cooking Club")}><Link to="/AllGeneralPage">Cooking Club</Link></button></li>
         <li>Dance Club</li>
         <li>Designer's Club</li>
         <li>Dramatics Club</li>
         <li>English Language Activities' Society</li>
         <li>
-          <Link to="/EsportsClub">Esports Club</Link>
+          <button onClick = {() => handleClick("Esports Club")}><Link to="/AllGeneralPage">Esports Club</Link></button>
         </li>
         <li>Hindi Tarang</li>
         <li>Journal Club</li>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import "../Pages/EsportsClub.css";
 import { Link } from "react-router-dom";
 import useOrganizationStore from "../ZustandStates/OrganizationNameState";
+import useLoginStore from "../ZustandStates/LoginState";
 
 const GeneralPage = () => {
 
@@ -16,22 +17,39 @@ const GeneralPage = () => {
   const valuesetOrganization = useOrganizationStore(
     (state) => state.setOrganizationState
   );
+  const valueUsername = useLoginStore((state) => state.Username);
+  const valueSetUsername = useLoginStore((state) => state.setUsername);
 
-  
-  useEffect(() => {
-    const fetchData = async () => {
-        try{
-            const response = await fetch(`/api/Pages/general?organizationName=${valueOrganization}`);
-            const resdata = await response.json();
-            console.log(resdata);
-            setData(resdata);
-        }catch(error)
-        {
-            console.error("error: ", error);
-        }
+  function check() {
+    if (valueOrganization === "") {
+      { console.log("yeah, null") }
+      valuesetOrganization(localStorage.getItem('org'));
+    }
+    else {
+      localStorage.setItem('org', valueOrganization);
+      console.log(localStorage.getItem('org'));
     }
 
+    //for already logged in
+    // { console.log("valueOrganization") };
+  }
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/Pages/general?organizationName=${valueOrganization}`);
+        const resdata = await response.json();
+        console.log(resdata);
+        setData(resdata);
+      } catch (error) {
+        console.error("error: ", error);
+      }
+    }
+
+    check();
     fetchData();
+
   }, [])
   //clicking on the right button for the carousel [next image]
   function handleclickright() {
@@ -88,17 +106,24 @@ const GeneralPage = () => {
       <p class="Description">
         {Data.GeneralDescription}{" "}
       </p>
-      <Link to="/LoginPage">
-        <button
-          onClick={() => valuesetOrganization("Esports Club")}
-          className="Login-button"
-        >
-          Login
-        </button>
-      </Link>
-      <br></br>
-    </div>
-  );
+      {console.log(Data.PORs)}
+      <h1>Positions of Responsibility</h1>
+      {/* <ul>
+        {
+          Data.PORs.map((por, index) =>
+            <li key={index}> {por} </li>
+          )
+        }
+      </ul> */}
+      <h1>Tips to get into the {valueOrganization}</h1>
+      <p>{Data.Tips}</p>
+      {/* ${valueUsername} */}
+      {console.log("here", valueUsername)}
+      {valueUsername !== "" && ((<Link to="/AllPage"><button className="Login-button">Login</button></Link>))}
+      {valueUsername === "" && ((<Link to="/LoginPage"><button className="Login-button">Login</button></Link>))}
+      </div >)
+        
 };
 
+{/* // onClick={() => valuesetOrganization("Esports Club")} */ }
 export default GeneralPage;

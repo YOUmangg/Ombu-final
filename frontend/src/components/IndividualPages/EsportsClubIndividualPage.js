@@ -20,7 +20,8 @@ const EsportsClubIndividualPage = () => {
   const valueSet = useMembersStore((state) => state.setMembersState);
   const valueSetProgress = useProgressSheetStore((state) => state.setProgressState);
   const valueProgress = useProgressSheetStore((state) => state.Progress);
-  const OrganizationName = useOrganizationStore((state) => state.OrganizationName);
+  const OrganizationName = useOrganizationStore((state) => state.Organization);
+  const setOrganizationName = useOrganizationStore((state) => state.setOrganizationState);
 
   //update important points
   const handleUpdate = () => { };
@@ -28,60 +29,53 @@ const EsportsClubIndividualPage = () => {
   //update ongoing tasks
   const handleongoingtasks = () => { };
 
- //the useEffect block was not working when user pressed back from add members or some other page. so, used this async function 
- //instead.
- useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`/api/Members/MembersList${OrganizationName}`);
-      const data = await response.json();
-      setMembers(data);
-    } catch (error) {
-      console.error("Error fetching events:", error);
+  //the useEffect block was not working when user pressed back from add members or some other page. so, used this async function 
+  //instead.
+  useEffect(() => {
+    const checker = async () => {
+      console.log("i reached checker");
+      try {
+        if (OrganizationName === '') {
+        console.log("here");
+        await setOrganizationName(localStorage.getItem('org'));
+      }
+      else {
+        localStorage.setItem('org', OrganizationName);
+      }
+    }catch{
+      console.log("error");
     }
-  };
-  const fetchData2 = async () => {
-    try {
-      const resp2 = await fetch("/api/Tasks");
-      const data2 = await resp2.json();
-      console.log(valueProgress);
-      console.log("i reached this use effect");
-      valueSetProgress(data2);
     }
-    catch (error) {
-      console.error("error : ", error);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/Members/MembersList?OrganizationName=${OrganizationName}`);
+        const data = await response.json();
+        console.log("organization name", OrganizationName);
+        setMembers(data);
+        // console.log(data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+    const fetchData2 = async () => {
+      try {
+        const resp2 = await fetch("/api/Tasks");
+        const data2 = await resp2.json();
+        // console.log(valueProgress);
+        // console.log("i reached this use effect");
+        valueSetProgress(data2);
+      }
+      catch (error) {
+        console.error("error : ", error);
+      }
     }
-  }
-  fetchData();
-  fetchData2();
-}, [OrganizationName]); // The empty dependency array ensures that the effect runs once on mount
-// console.log(allevents);
-//   async function init() {
-//     await fetch("/api/Members/EsportsClub").then((response) =>
-//       response
-//         .json()
-//         .then((data) => setMembers(data))
-//         .catch((error) => console.error("Error:", error))  
-//     );
-//     valueSetProgress(() => valueSetProgress(setMembers))
-//   } 
-    // valueSetProgress(() => valueSetProgress(setMembers))
-  //Inside the useEffect, using the get function to collect all the members data. This function could have been modified
-  //to be executed after someone taps on the members list button, but implemented it earlier for checking purpose, 
-  //can be edited later on. Doesn't matter much for now.
-  // useEffect(() => {
-  //    fetch("/api/Members/EsportsClub").then((response) =>
-  //     response
-  //       .json()
-  //       .then((data) => setMembers(data))
-  //       .catch((error) => console.error("Error:", error))  
-  //   );
-  //   // valueSetProgress(() => valueSetProgress(setMembers))
-  // }, []);
-
+    checker();
+    fetchData();
+    fetchData2();
+  }, []);
   //giving the value of members to the global state
   const givevalue = (members) => {
-     valueSet(members);
+    valueSet(members);
   };
 
   return (
@@ -135,9 +129,10 @@ const EsportsClubIndividualPage = () => {
           ></img>
         </Link>
       </div>
-      {givevalue(members)}
+      {/* {console.log("members", members)}; */}
+      {() => givevalue(members)}
       <Link to="../MembersList">
-        <button>Members List</button>
+        <button onClick={givevalue(members)}>Members List</button>
       </Link>
       {/* the below console.log() is just for checking */}
       {/* {console.log(valueMem)} */}
@@ -147,7 +142,7 @@ const EsportsClubIndividualPage = () => {
       <Link to="/AddMembers">
         <button>Add Members</button>
       </Link>
-      <Link to = "/AddInductionNotice">
+      <Link to="/AddInductionNotice">
         <button>Create Induction Notice</button>
       </Link>
       <ProgressSheet></ProgressSheet>

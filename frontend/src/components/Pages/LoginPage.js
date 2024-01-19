@@ -3,6 +3,7 @@ import "./LoginPage.css";
 import { NavLink as Link } from "react-router-dom";
 import useOrganizationStore from "../ZustandStates/OrganizationNameState";
 import useProgressSheetStore from "../ZustandStates/ProgressSheetState";
+import useLoginStore from "../ZustandStates/LoginState";
 
 const Login = () => {
   //you can pass the organization name directly here? if not passed any
@@ -17,6 +18,8 @@ const Login = () => {
   //global states
   const valueOrganization = useOrganizationStore((state) => state.Organization);
   const valueOrganizationSet = useOrganizationStore((state) => state.setOrganizationState);
+  const valueUsername = useLoginStore((state) => state.Username);
+  const valueSetUsername = useLoginStore((state) => state.setUsername);
   //trying to set progress sheet here only
   const valueSetProgress = useProgressSheetStore((state) => state.setProgressState);
 
@@ -41,18 +44,30 @@ const Login = () => {
   async function signincheck() {
 
     try {
+      //check if the user has signed up 
       const responseUsers = await fetch("/api/Newusers");
       const dataUsers = await responseUsers.json();
       const found = dataUsers.find((user) => user.Username === username && user.Password === password);
 
+      //check if the user is a member of the club he is trying to log into
       if (found) {
-        const responseMembers = await fetch("/api/Members");
+        // const responseMembers = await fetch("/api/Members");
+        const responseMembers = await fetch(`/api/Members/find?Username=${username}&organisationName=${organization}`)
         const dataMembers = await responseMembers.json();
-        const newfound = dataMembers.find((user) => user.username === username && user.organisationName === organization);
+        // const newfound = dataMembers.find((user) => user.username === username && user.organisationName === organization);
 
+        let newfound = 0;
+        if(Object.keys(dataMembers).length > 0)
+        {
+          newfound = 1;
+        }
+        
+        //found. give access!
         if (newfound) {
           setisVerified(true);
           valueOrganizationSet(organization); 
+          valueSetUsername(username);
+          localStorage.setItem('Username', username);
           try {
             const response = await fetch("/api/Tasks");
             const data = await response.json();
@@ -106,10 +121,9 @@ const Login = () => {
       <div className="submit-and-signup">
         <button onClick={signincheck}> Verify details</button>
         {isVerified && task}
-        {isVerified && <Link to="/EsportsClubIndividualPage">
+        {isVerified && <Link to="/AllPage">
           <button className="submit"> Submit</button>
         </Link>}
-
         <Link to="/SignUpPage">
           <button className="signup-button">Click here to Sign Up!</button>
         </Link>
