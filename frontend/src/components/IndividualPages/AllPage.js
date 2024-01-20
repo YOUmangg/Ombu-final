@@ -18,9 +18,12 @@ const IndividualPage = () => {
   //global states
   const valueMem = useMembersStore((state) => state.Members);
   const valueSet = useMembersStore((state) => state.setMembersState);
+  // const valueSetProgress = useProgressSheetStore((state) => state.setProgressState);
+  // const valueProgress = useProgressSheetStore((state) => state.Progress);
   const valueSetProgress = useProgressSheetStore((state) => state.setProgressState);
   const valueProgress = useProgressSheetStore((state) => state.Progress);
-  const OrganizationName = useOrganizationStore((state) => state.OrganizationName);
+  const OrganizationName = useOrganizationStore((state) => state.Organization);
+  const setOrganizationName = useOrganizationStore((state) => state.setOrganizationState);
 
   //update important points
   const handleUpdate = () => { };
@@ -31,10 +34,25 @@ const IndividualPage = () => {
  //the useEffect block was not working when user pressed back from add members or some other page. so, used this async function 
  //instead.
  useEffect(() => {
+  const checker = async () => {
+    console.log("i reached checker");
+    try {
+      if (OrganizationName === '') {
+      console.log("here");
+      setOrganizationName(localStorage.getItem('org'));
+    }
+    else {
+      console.log("else");
+      localStorage.setItem('org', OrganizationName);
+    }
+  }catch{
+    console.log("error");
+  }
+  }
   const fetchData = async () => {
     try {
       console.log("organization name new part", OrganizationName);
-      const response = await fetch(`/api/Members/${OrganizationName}`);
+      const response = await fetch(`/api/Members/MembersList?OrganizationName=${OrganizationName}`);
       const data = await response.json();
       setMembers(data);
     } catch (error) {
@@ -43,9 +61,9 @@ const IndividualPage = () => {
   };
   const fetchData2 = async () => {
     try {
-      const resp2 = await fetch("/api/Tasks");
+      const resp2 = await fetch(`/api/Tasks/find?organization=${OrganizationName}`);
       const data2 = await resp2.json();
-      console.log(valueProgress);
+      console.log("this", valueProgress);
       console.log("i reached this use effect");
       valueSetProgress(data2);
     }
@@ -53,6 +71,7 @@ const IndividualPage = () => {
       console.error("error : ", error);
     }
   }
+  checker();
   fetchData();
   fetchData2();
 }, []);
@@ -90,20 +109,6 @@ const IndividualPage = () => {
           src="../../../EsportsClubLogo.jpg"
           alt="logo"
         />
-        {/* <div className="Ongoing-tasks">
-          <h3>Ongoing Tasks</h3>
-          <textarea
-            style={{
-              width: "300px",
-              height: "300px",
-              resize: "none",
-              overflow: "auto",
-            }}
-            placeholder="Ongoing tasks"
-          ></textarea>
-          <button onClick={handleongoingtasks}>Update Ongoing Tasks</button>
-        </div> */}
-        
       </div>
       <div className="createtask11">
         <Link to="../TaskCreator">

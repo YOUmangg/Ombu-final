@@ -118,6 +118,8 @@ const GeneralPage = () => {
       <h1>Tips to get into the {valueOrganization}</h1>
       <p>{Data.Tips}</p>
       {/* ${valueUsername} */}
+      {/* //need to check if the username in the login store is a member of the particular organization or not here only.
+      //If not, redirect to the login page only. */}
       {console.log("here", valueUsername)}
       {valueUsername !== "" && ((<Link to="/AllPage"><button className="Login-button">Login</button></Link>))}
       {valueUsername === "" && ((<Link to="/LoginPage"><button className="Login-button">Login</button></Link>))}

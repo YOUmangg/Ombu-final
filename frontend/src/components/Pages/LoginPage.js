@@ -35,19 +35,26 @@ const Login = () => {
     // this runs as a cleanup code, which sets the global variable to empty after the user leaves the page.
   }, []);
 
+  // useEffect((async () => {
+  //     // e.preventDefault();
+  //     console.log("task", organization);
+  //     await valueOrganizationSet(organization);
+  //   }, [isVerified]));
+
   async function task() {
     // e.preventDefault();
+    console.log("task", organization);
     valueOrganizationSet(organization);
-
   }
   // check for the username and password
   async function signincheck() {
 
     try {
       //check if the user has signed up 
-      const responseUsers = await fetch("/api/Newusers");
+      const responseUsers = await fetch(`/api/Newusers/find?Username=${username}`);
       const dataUsers = await responseUsers.json();
-      const found = dataUsers.find((user) => user.Username === username && user.Password === password);
+      // const found = dataUsers.find((user) => user.Username === username && user.Password === password);
+      let found = dataUsers;
 
       //check if the user is a member of the club he is trying to log into
       if (found) {
@@ -57,19 +64,21 @@ const Login = () => {
         // const newfound = dataMembers.find((user) => user.username === username && user.organisationName === organization);
 
         let newfound = 0;
-        if(Object.keys(dataMembers).length > 0)
-        {
+        if (Object.keys(dataMembers).length > 0) {
           newfound = 1;
         }
-        
+
         //found. give access!
         if (newfound) {
           setisVerified(true);
-          valueOrganizationSet(organization); 
+          valueOrganizationSet(organization);
+          console.log(valueOrganization);
           valueSetUsername(username);
           localStorage.setItem('Username', username);
+          localStorage.setItem('org', valueOrganization);
+          console.log("this one", localStorage.getItem('org'));
           try {
-            const response = await fetch("/api/Tasks");
+            const response = await fetch(`/api/Tasks/find?organization=${organization}`);
             const data = await response.json();
             valueSetProgress(data);
           }
@@ -120,7 +129,8 @@ const Login = () => {
       </label>
       <div className="submit-and-signup">
         <button onClick={signincheck}> Verify details</button>
-        {isVerified && task}
+        {/* {if(isVerified){ task}} */}
+        {/* {isVerified && task()} */}
         {isVerified && <Link to="/AllPage">
           <button className="submit"> Submit</button>
         </Link>}
