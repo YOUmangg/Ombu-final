@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./LoginPage.css";
+// import "./LoginPage.css";
+import { Button, Checkbox, Label, TextInput } from 'flowbite-react';
 import { NavLink as Link } from "react-router-dom";
 import useOrganizationStore from "../ZustandStates/OrganizationNameState";
 import useProgressSheetStore from "../ZustandStates/ProgressSheetState";
@@ -20,6 +21,9 @@ const Login = () => {
   const valueOrganizationSet = useOrganizationStore((state) => state.setOrganizationState);
   const valueUsername = useLoginStore((state) => state.Username);
   const valueSetUsername = useLoginStore((state) => state.setUsername);
+  const organizations = useLoginStore((state) => state.Organizations);
+  const setOrganizations = useLoginStore((state) => state.setOrganizations);
+
   //trying to set progress sheet here only
   const valueSetProgress = useProgressSheetStore((state) => state.setProgressState);
 
@@ -35,20 +39,13 @@ const Login = () => {
     // this runs as a cleanup code, which sets the global variable to empty after the user leaves the page.
   }, []);
 
-  // useEffect((async () => {
-  //     // e.preventDefault();
-  //     console.log("task", organization);
-  //     await valueOrganizationSet(organization);
-  //   }, [isVerified]));
-
-  async function task() {
-    // e.preventDefault();
-    console.log("task", organization);
+  useEffect(() => {
     valueOrganizationSet(organization);
-  }
-  // check for the username and password
-  async function signincheck() {
+  }, [isVerified])
 
+  // check for the username and password
+  async function signincheck(e) {
+    e.preventDefault();
     try {
       //check if the user has signed up 
       const responseUsers = await fetch(`/api/Newusers/find?Username=${username}`);
@@ -76,7 +73,7 @@ const Login = () => {
           valueSetUsername(username);
           localStorage.setItem('Username', username);
           localStorage.setItem('org', valueOrganization);
-          console.log("this one", localStorage.getItem('org'));
+          // console.log("this one", localStorage.getItem('org'));
           try {
             const response = await fetch(`/api/Tasks/find?organization=${organization}`);
             const data = await response.json();
@@ -85,6 +82,24 @@ const Login = () => {
           catch (error) {
             console.log(error);
           }
+          //create a global state consisting of an array of strings, consisting of which all organizations the current
+          //user is a part of. We need to check if the current organization he is trying to get into is present in the 
+          //array. If yes, give access to the page, else, show the general page. [the check can go to the general page
+        // or this page?]
+        const temp = organizations;
+        try{
+          const response = await fetch(`/api/Members/find/organizations?Username=${username}`);
+          const data = await response.json();
+          data.map((val, key) => {
+            temp.push(val);
+          })
+          setOrganizations(temp);
+          sessionStorage.setItem('orgs', temp);
+          console.log("organizations global", organizations);
+          console.log("new data one", data);
+        }catch(error) {
+          console.log(error);
+        }
         } else {
           setisVerified(false);
         }
@@ -104,41 +119,45 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <label>
-        Organization: &nbsp;
-        <input
-          value={organization}
-          onChange={(e) => setOrganization(e.target.value)}
-        ></input>
-      </label>
-      <label>
-        Username:{" "}
-        <input
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        ></input>
-      </label>
-      <br></br>
-      <label>
-        Password:&nbsp;
-        <input
-          value={password}
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        ></input>
-      </label>
-      <div className="submit-and-signup">
-        <button onClick={signincheck}> Verify details</button>
-        {/* {if(isVerified){ task}} */}
-        {/* {isVerified && task()} */}
-        {isVerified && <Link to="/AllPage">
-          <button className="submit"> Submit</button>
+      <form className="flex max-w-md flex-col gap-4">
+        {/* <div>
+        <div className="mb-2 block">
+          <Label htmlFor="email1" value="Your email" />
+        </div>
+        <TextInput id="email1" type="email" placeholder="name@flowbite.com" required />
+      </div> */}
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="username1" value="username" />
+          </div>
+          <TextInput id="username1" type="username" placeholder="f2020XXXX" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="password1" value="Your password" />
+          </div>
+          <TextInput id="password1" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="organization" value="Organization Name" />
+          </div>
+          <TextInput id="organization1" type="organization" placeholder="Organization Name" value={organization} onChange={(e) => setOrganization(e.target.value)} required />
+        </div>
+        <div className="flex items-center gap-2">
+          <Checkbox id="remember" />
+          <Label htmlFor="remember">Remember me</Label>
+        </div>
+        <Button type="submit" onClick={(e) => signincheck(e)}>Submit</Button>
+        {isVerified}
+       {isVerified && <Link to="/AllPage">
+          <Button color = "success" className="submit"> Submit</Button>
         </Link>}
         <Link to="/SignUpPage">
-          <button className="signup-button">Click here to Sign Up!</button>
+          <Button color = "blue" className="signup-button">Click here to Sign Up!</Button>
         </Link>
-      </div>
-      {isVerified === false && <p>Either the details are incorrect or you are not a member. Please check once again!</p>}
+      {isVerified === false && <p>Either the details are incorrect or you are not a member. Please check once again!</p>} 
+      </form>
     </div>
   );
 };

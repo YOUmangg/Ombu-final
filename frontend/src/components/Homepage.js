@@ -1,8 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Accordion, AccordionPanel } from "flowbite-react";
 // import AddInductionNotice from "./IndividualPages/AddInductionNotice.js";
-import "../App.css";
+// import "../App.css";
 import PopUp from "./PopUp.js";
 
 const Home = () => {
@@ -43,14 +44,12 @@ const Home = () => {
     else {
       setSelectedEvent(null);
     }
-    //  setSelectedEvent(eventData);
-    //  return (<PopUp data={eventData}></PopUp>);
   };
 
   const handleClosePopUp = () => {
     setSelectedEvent(null);
   }
-
+  let date;
 
   return (
     <motion.div className="Home"
@@ -59,41 +58,46 @@ const Home = () => {
       exit={{ opacity: 0, x: '-100%', transition: { duration: 0.7 } }}
     >
       <div className="EandI">
-        <div className="EventsHome">
-          <h1>Upcoming events</h1>
-          <ul>
-            {allevents.map((val, key) => {
-              return (
-                //onClick, open a dialog box, giving more details about the event.
-                <div>
-                  <button onClick={() => handleOnClick(val)} key={key}><strong>{val.EventName}</strong> &nbsp; by &nbsp; <strong>{val.OrganizationName}</strong> &nbsp; on &nbsp; {val.EventDate}</button>
-                  {selectedEvent && selectedEvent === val && (
-                    <div className="popup-overlay" onClick={handleClosePopUp}>
-                      <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-                        <PopUp data={selectedEvent} />
-                      </div>
-                    </div>
-                  )}</div>
-              );
-            })}
-          </ul>
-        </div>
-        <div className="InductionsHome">
-          <h1>Induction Notices</h1>
-          {/* {allInductions && {
-            (<div>no</div>)
-          }
-          }; */}
-          <ul>
-            {allInductions && allInductions.map((val, key) => {
-              return (
-                <div>
-                  <button>{val.OrganizationName}</button>
-                </div>
-              )
-            })}
-          </ul>
-        </div>
+      <h1>Events</h1>
+      <Accordion collapseAll>
+        {allevents && allevents.map((val, key) => {
+          { date = val.EventDate.toString().split('T', 1) }
+          return (
+            <Accordion.Panel>
+              <Accordion.Title>
+                <b>{val.EventName}</b> by <b>{val.OrganizationName}</b>
+              </Accordion.Title>
+              <Accordion.Content>
+                <ul>
+                  <li><h4>➡️Description: {val.EventDescription}</h4></li>
+                  <li><h4>➡️Venue: {val.EventVenue}</h4></li>
+                  <li><h4>➡️Date: {date}</h4></li>
+                  <li><h4>➡️Time: {val.EventTime}</h4></li>
+                  <li><h4>➡️Registration Link: {val.RegistrationLink} </h4></li>
+                </ul>
+              </Accordion.Content>
+            </Accordion.Panel>
+          );
+        })}
+      </Accordion>
+      <div><h1>Induction Notices </h1>
+      <Accordion collapseAll>
+        {allInductions && allInductions.map((val, key) => {
+          return (
+            <Accordion.Panel>
+              <Accordion.Title>
+                <b>{val.OrganizationName}</b>
+              </Accordion.Title>
+              <Accordion.Content>
+                <h4>{val.Description}</h4>
+                <h4>Eligibility: {val.Batches} </h4>
+                <h4>Apply link: {val.Link ? val.Link : "NA"}</h4>
+              </Accordion.Content>
+            </Accordion.Panel>
+          )
+        })}
+      </Accordion>
+      </div>
       </div>
     </motion.div>
   );

@@ -3,14 +3,17 @@
 import React, { useEffect, useState } from "react";
 import "../Pages/EsportsClub.css";
 import { Link } from "react-router-dom";
+import { Carousel } from "flowbite-react";
 import useOrganizationStore from "../ZustandStates/OrganizationNameState";
 import useLoginStore from "../ZustandStates/LoginState";
+
 
 const GeneralPage = () => {
 
   //local states
   const [index, setindex] = useState(0);
   const [Data, setData] = useState([]);
+  const [check, setCheck] = useState(false); //for checking if logged in user and a part of org or not
 
   //global states
   const valueOrganization = useOrganizationStore((state) => state.Organization);
@@ -19,8 +22,9 @@ const GeneralPage = () => {
   );
   const valueUsername = useLoginStore((state) => state.Username);
   const valueSetUsername = useLoginStore((state) => state.setUsername);
+  const orgs = useLoginStore((state) => state.Organizations);
 
-  function check() {
+  useEffect(() => {
     if (valueOrganization === "") {
       { console.log("yeah, null") }
       valuesetOrganization(localStorage.getItem('org'));
@@ -28,12 +32,17 @@ const GeneralPage = () => {
     else {
       localStorage.setItem('org', valueOrganization);
       console.log(localStorage.getItem('org'));
+      orgs.forEach(element => {
+        if (element === valueOrganization) {
+          setCheck(true);
+          return;
+        }
+      });
     }
 
     //for already logged in
     // { console.log("valueOrganization") };
-  }
-
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +56,7 @@ const GeneralPage = () => {
       }
     }
 
-    check();
+    // check();
     fetchData();
 
   }, [])
@@ -78,7 +87,15 @@ const GeneralPage = () => {
     <div className="Whole">
       <br></br>
       {/* <img className = "Esportsimg" src= "../../../EsportsClubLogo.jpg" alt = "logo"/> */}
-
+      <div className="flex-direction: row inset-20 h-80 w-80">
+      <Carousel slideInterval={5000}>
+        <img src="../../../EsportsClubLogo.jpg" alt="..." />
+        <img src="../../../Atmos2022.png" alt="..." />
+        {/* <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
+        <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
+        <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." /> */}
+      </Carousel>
+    </div>
       <div className="carousel">
         <button className="left-arrow" onClick={handleclickleft}>
           <img
@@ -108,23 +125,24 @@ const GeneralPage = () => {
       </p>
       {console.log(Data.PORs)}
       <h1>Positions of Responsibility</h1>
-      {/* <ul>
+      {Data.PORs && (<ul>
         {
           Data.PORs.map((por, index) =>
             <li key={index}> {por} </li>
           )
         }
-      </ul> */}
+      </ul>)}
       <h1>Tips to get into the {valueOrganization}</h1>
       <p>{Data.Tips}</p>
       {/* ${valueUsername} */}
       {/* //need to check if the username in the login store is a member of the particular organization or not here only.
       //If not, redirect to the login page only. */}
       {console.log("here", valueUsername)}
-      {valueUsername !== "" && ((<Link to="/AllPage"><button className="Login-button">Login</button></Link>))}
+      {valueUsername !== "" && check && ((<Link to="/AllPage"><button className="Login-button">Login</button></Link>))}
       {valueUsername === "" && ((<Link to="/LoginPage"><button className="Login-button">Login</button></Link>))}
-      </div >)
-        
+      {valueUsername !== "" && ((<Link to="/LoginPage"><button className="Login-button">Login</button></Link>))}
+    </div >)
+
 };
 
 {/* // onClick={() => valuesetOrganization("Esports Club")} */ }

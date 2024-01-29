@@ -24,12 +24,18 @@ router.get("/find", async(req, res) => {
   res.status(500).json({error: "Internal Server Error"});
   }
 })
-//GET Esports club members list //change this to have a req query type thing..
-// router.get("/EsportsClub", async (req, res) => {
-//   const org = "Esports Club"
-//   const member = await Members.find({ 'organisationName': org });
-//   res.status(200).json(member);
-// });
+
+router.get("/find/organizations", async(req, res) => {
+  const search = {"Username" : req.query.Username};
+  try {
+    const orgs = await Members.find({"username" : req.query.Username}, {organisationName: 1});
+    res.status(200).json(orgs);
+  }catch(error)
+  {
+    res.status(500).json({error: "Internal Server Error"});
+  }
+})
+
 router.get("/MembersList", async (req, res) => {
   const org = req.query.OrganizationName;
   try{
@@ -40,12 +46,6 @@ router.get("/MembersList", async (req, res) => {
     res.status(404).json({error: "Internal"});
   }
 });
-
-//Signin check, particular members, only with organization.
-// router.get("/SignInCheck", async(req, res) => {
-//   const member = await Members.find({req.username});
-
-// })
 
 router.post("/", async (req, res) => {
   const { name, username, roles, phonenumber, isAdmin, organisationName } = req.body;

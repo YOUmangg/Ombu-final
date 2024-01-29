@@ -37,6 +37,8 @@
     height: 300px;
     width: 300px;
     margin-top: 65px;
+    margin-right: auto;
+    margin-left: 65px;
 }
 
 .createtask11{
@@ -51,7 +53,7 @@
     color:yellowgreen;                                  
 }
 
-table { 
+/* table { 
     background-color: aqua;
     font-family: 'Luxurious Roman', cursive;
     border: 2px solid forestgreen;
@@ -66,5 +68,5 @@ th {
  
 td {
     text-align: center;
-}
+} */
 

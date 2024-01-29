@@ -6,7 +6,7 @@ const router = express.Router();
 //GET info related to general page
 router.get("/general", async (req, res) => {
   const org = req.query.organizationName;
-  try {  
+  try {
     const genPage = await Pages.findOne({ "Name": org });
     const forGen = { "Name": genPage.Name, "GeneralDescription": genPage.GeneralDescription, "PORs": genPage.PORs, "Tips": genPage.Tips };
     res.status(200).json(forGen);
@@ -19,9 +19,13 @@ router.get("/general", async (req, res) => {
 //GET internal page
 router.get("/page", async (req, res) => {
   const org = req.query.organizationName;
-  const internalPage = await Pages.findOne({ "Name": org });
+  try{const internalPage = await Pages.findOne({ "Name": org });
   const forInternal = { "Name": internalPage.Name, "HotTopics": internalPage.HotTopics };
-  res.status(200).json();
+  res.status(200).json(forInternal);
+}
+catch{
+  res.status(404).json({message: "Data for no"}); 
+}
 })
 
 
@@ -44,5 +48,19 @@ router.post("/", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
+router.put("/hottopics", async (req, res) => {
+  const hottopics = req.body.HotTopics;
+  const org = req.query.organizationName;
+  try {
+    const updatedDoc = await Pages.findOneAndUpdate({ Name: org}, 
+       {$set: {"HotTopics": hottopics }},
+       {new : true});
+    res.status(200).json(updatedDoc);
+  }
+  catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+})
 
 module.exports = router;
