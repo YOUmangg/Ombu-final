@@ -30,18 +30,21 @@ const GeneralPage = () => {
       valuesetOrganization(localStorage.getItem('org'));
     }
     else {
-      localStorage.setItem('org', valueOrganization);
-      console.log(localStorage.getItem('org'));
-      orgs.forEach(element => {
-        if (element === valueOrganization) {
-          setCheck(true);
-          return;
+      if (localStorage.setItem !== "") {
+        localStorage.setItem('org', valueOrganization);
+        console.log(localStorage.getItem('org'));
+        orgs.forEach(element => {
+          if (element === valueOrganization) {
+            setCheck(true);
+            return;
+          }
         }
-      });
-    }
+        );
+      }
 
-    //for already logged in
-    // { console.log("valueOrganization") };
+      //for already logged in
+      // { console.log("valueOrganization") };
+    }
   })
 
   useEffect(() => {
@@ -60,43 +63,81 @@ const GeneralPage = () => {
     fetchData();
 
   }, [])
-  //clicking on the right button for the carousel [next image]
-  function handleclickright() {
-    if (index === carousel.length - 1) {
-      setindex(0);
-      return;
-    } else setindex(index + 1);
-  }
-
-  //clicking on the left button for the carousel [previous image]
-  function handleclickleft() {
-    if (index === 0) {
-      setindex(carousel.length - 1);
-      return;
-    } else {
-      setindex(index - 1);
-    }
-  }
-
-  //creation of carousel [array of images]
-  let carousel = [];
-  carousel.push("../../../EsportsClubLogo.jpg");
-  carousel.push("../../../Atmos2022.png");
 
   return (
     <div className="Whole">
       <br></br>
       {/* <img className = "Esportsimg" src= "../../../EsportsClubLogo.jpg" alt = "logo"/> */}
-      <div className="flex-direction: row inset-20 h-80 w-80">
-      <Carousel slideInterval={5000}>
-        <img src="../../../EsportsClubLogo.jpg" alt="..." />
-        <img src="../../../Atmos2022.png" alt="..." />
-        {/* <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
-        <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
-        <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." /> */}
-      </Carousel>
-    </div>
       <div className="carousel">
+        <div className="flex-direction: column flex-wrap w+20">
+          <h1 className="text-3xl text-blue-500">Positions of Responsibility</h1><br />
+          {console.log(Data.PORs)}
+          {Data.PORs && (<ul className="text-xl text-blue-100">
+            {
+              Data.PORs.map((por, index) =>
+                <li key={index}> {por} </li>
+              )
+            }
+          </ul>)}
+        </div>
+        <div className="flex-direction: column inset-20 h-80 w-80">
+          <Carousel slideInterval={2000}>
+            <img src="../../../EsportsClubLogo.jpg" alt="..." />
+            <img src="../../../Atmos2022.png" alt="..." />
+          </Carousel>
+
+        </div>
+        <div className="flex-direction: column flex-wrap">
+          <h1 className="text-3xl text-blue-500 flex-wrap">Tips to get into the {valueOrganization}</h1><br />
+          <p className="text-xl text-blue-100">{Data.Tips}</p>
+        </div>
+      </div>
+      <div className="flex-direction: column justify-center items-center">
+        <div><p class="Title">{Data.Name}</p></div>
+        <p class="Description">
+          {Data.GeneralDescription}{" "}
+        </p>
+      </div>
+      {/* ${valueUsername} */}
+      {/* //need to check if the username in the login store is a member of the particular organization or not here only.
+      //If not, redirect to the login page only. */}
+      <div>{console.log("here", valueUsername)}
+        {valueUsername !== "" && check && ((<Link to="/AllPage"><button className="Login-button">Login</button></Link>))}
+        {valueUsername === "" && ((<Link to="/LoginPage"><button className="Login-button">Login</button></Link>))}</div>
+      {/* {valueUsername !== "" && ((<Link to="/LoginPage"><button className="Login-button">Login</button></Link>))} */}
+    </div >)
+
+};
+
+{/* // onClick={() => valuesetOrganization("Esports Club")} */ }
+export default GeneralPage;
+
+//earlier code for carousel
+// //clicking on the right button for the carousel [next image]
+// function handleclickright() {
+//   if (index === carousel.length - 1) {
+//     setindex(0);
+//     return;
+//   } else setindex(index + 1);
+// }
+
+// //clicking on the left button for the carousel [previous image]
+// function handleclickleft() {
+//   if (index === 0) {
+//     setindex(carousel.length - 1);
+//     return;
+//   } else {
+//     setindex(index - 1);
+//   }
+// }
+
+// //creation of carousel [array of images]
+// let carousel = [];
+// carousel.push("../../../EsportsClubLogo.jpg");
+// carousel.push("../../../Atmos2022.png");
+
+
+{/* <div className="carousel">
         <button className="left-arrow" onClick={handleclickleft}>
           <img
             src="../../../arrowleft.png"
@@ -118,32 +159,4 @@ const GeneralPage = () => {
             alt="arrowright"
           />
         </button>
-      </div>
-      <p class="Title">{Data.Name}</p>
-      <p class="Description">
-        {Data.GeneralDescription}{" "}
-      </p>
-      {console.log(Data.PORs)}
-      <h1>Positions of Responsibility</h1>
-      {Data.PORs && (<ul>
-        {
-          Data.PORs.map((por, index) =>
-            <li key={index}> {por} </li>
-          )
-        }
-      </ul>)}
-      <h1>Tips to get into the {valueOrganization}</h1>
-      <p>{Data.Tips}</p>
-      {/* ${valueUsername} */}
-      {/* //need to check if the username in the login store is a member of the particular organization or not here only.
-      //If not, redirect to the login page only. */}
-      {console.log("here", valueUsername)}
-      {valueUsername !== "" && check && ((<Link to="/AllPage"><button className="Login-button">Login</button></Link>))}
-      {valueUsername === "" && ((<Link to="/LoginPage"><button className="Login-button">Login</button></Link>))}
-      {valueUsername !== "" && ((<Link to="/LoginPage"><button className="Login-button">Login</button></Link>))}
-    </div >)
-
-};
-
-{/* // onClick={() => valuesetOrganization("Esports Club")} */ }
-export default GeneralPage;
+      </div> */}

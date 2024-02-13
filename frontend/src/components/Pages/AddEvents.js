@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import useEventsStore from "../ZustandStates/EventsState";
 import useOrganizationStore from "../ZustandStates/OrganizationNameState";
-import DatePicker from 'react-datepicker';
 import TimePicker from 'react-time-picker';
-import 'react-datepicker/dist/react-datepicker.css';
 import "./AddEvents.css";
+import { Button, Datepicker } from 'flowbite-react';
 
 const AddEvents = () => {
 
@@ -23,14 +22,13 @@ const AddEvents = () => {
   const OrganizationName = useOrganizationStore((state) => state.Organization);
   const setOrganizationName = useOrganizationStore((state) => state.setOrganizationState);
 
-  if(OrganizationName === "")
-  {
+  if (OrganizationName === "") {
     const stored = localStorage.getItem('OrganizationName');
-    if(stored){
-    setOrganizationName(localStorage.getItem('OrganizationName'));
+    if (stored) {
+      setOrganizationName(localStorage.getItem('OrganizationName'));
     }
   }
-  else{
+  else {
     localStorage.setItem('OrganizationName', OrganizationName);
   }
   // localStorage.setItem('OrganizationName', OrganizationName);
@@ -42,35 +40,35 @@ const AddEvents = () => {
   const handler = async (e) => {
     e.preventDefault();
     const event = {
-      "EventName" : EventName, 
-      "EventDescription" : EventDescription, 
-      "EventDate" : Date.toISOString(),
-      "EventTime" : Time, 
-      "EventVenue" : EventVenue, 
-      "RegistrationLink" : RegistrationLink, 
+      "EventName": EventName,
+      "EventDescription": EventDescription,
+      "EventDate": Date.toISOString(),
+      "EventTime": Time,
+      "EventVenue": EventVenue,
+      "RegistrationLink": RegistrationLink,
       "OrganizationName": OrganizationName
     };
     //post directly. If you want to check for something, try checking if the exact object exists in the database or not. 
     //Also, how do you make an event automatically get deleted? well not deleted, but you need to check for the event time and
     // the current time. if the current time is greater than event time, don't display it on the homepage. //this needs to be added
     //on the homepage.
-    try{
+    try {
       const response = await fetch("/api/Events", {
-        method : "POST",
+        method: "POST",
         body: JSON.stringify(event),
         headers: {
           "Content-type": "application/json",
         },
       });
-      if(!response.ok){
+      if (!response.ok) {
         console.log("could not") //could not add the event
         throw new Error(`Error! status: ${response.status}`)
       }
-      else{
+      else {
         console.log("did it");
       }
     }
-    catch (error){
+    catch (error) {
       console.log("Error: ", error);
     }
     seteventHeadliner(EventName);
@@ -78,48 +76,49 @@ const AddEvents = () => {
 
   return (
     <div className="form">
-      <form onSubmit = { handler}>
+      <form onSubmit={handler}>
         <div className="EventName-div">
-        <label >Event Name: </label>
-        <input
-          value={EventName}
-          onChange={(e) => setEventName(e.target.value)}
-        ></input>
+          <label >Event Name: </label>
+          <input
+            value={EventName}
+            onChange={(e) => setEventName(e.target.value)}
+          ></input>
         </div>
         <div className="EventDescription-div">
-        <label>Event Description: </label>
-        <input
-          value={EventDescription}
-          onChange={(e) => setEventDescription(e.target.value)}
-        ></input>
+          <label>Event Description: </label>
+          <input
+            value={EventDescription}
+            onChange={(e) => setEventDescription(e.target.value)}
+          ></input>
         </div>
         <div className="EventDate-div">
           <label> Event Date: </label>
-          < DatePicker selected={Date} onChange={(Date) => setDate(Date)} />
+          {/* < DatePicker selected={Date} onChange={(Date) => setDate(Date)} /> */}
+          <Datepicker autoHide={true} selected={Date} onChange={(Date) => setDate(Date)} />
         </div>
         <div className="EventTime-div">
-        <label>Event Time: </label>
-        <TimePicker selected={Time} onChange = {(Time) => setTime(Time)}></TimePicker>
-        {/* <input
+          <label>Event Time: </label>
+          <TimePicker selected={Time} onChange={(Time) => setTime(Time)}></TimePicker>
+          {/* <input
           value={EventTime}
           onChange={(e) => setEventTime(e.target.value)}
         ></input> */}
         </div>
         <div className="EventVenue-div">
-        <label>Event venue: </label>
-        <input
-          value={EventVenue}
-          onChange={(e) => setEventVenue(e.target.value)}
-        ></input>
+          <label>Event venue: </label>
+          <input
+            value={EventVenue}
+            onChange={(e) => setEventVenue(e.target.value)}
+          ></input>
         </div>
         <div className="RegistrationLink-div">
-        <label>Registration Link: </label>
-        <input
-          value={RegistrationLink}
-          onChange={(e) => setRegistrationLink(e.target.value)}
-        ></input>
+          <label>Registration Link: </label>
+          <input
+            value={RegistrationLink}
+            onChange={(e) => setRegistrationLink(e.target.value)}
+          ></input>
         </div>
-        <button type = "submit">Create New Event</button>
+        <Button type="submit">Create New Event</Button>
       </form>
     </div>
   );

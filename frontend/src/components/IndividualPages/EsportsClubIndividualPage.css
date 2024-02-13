@@ -13,6 +13,7 @@
 
 .Important-topics{
     display: flex;
+    justify-content: flex-end;
     flex-direction: column;
     margin-left: 10px;
 }
@@ -53,6 +54,10 @@
     color:yellowgreen;                                  
 }
 
+.buttons{
+    display: flex;
+    justify-content: space-between;
+}
 /* table { 
     background-color: aqua;
     font-family: 'Luxurious Roman', cursive;

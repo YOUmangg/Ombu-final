@@ -6,6 +6,7 @@ import { Button, Table } from 'flowbite-react';
 import ProgressSheet from "../ProgressSheet";
 import useMembersStore from "../ZustandStates/MembersListState";
 import useProgressSheetStore from "../ZustandStates/ProgressSheetState";
+import useLoginStore from "../ZustandStates/LoginState";
 import useOrganizationStore from "../ZustandStates/OrganizationNameState";
 
 const IndividualPage = () => {
@@ -28,9 +29,24 @@ const IndividualPage = () => {
   const valueProgress = useProgressSheetStore((state) => state.Progress);
   const OrganizationName = useOrganizationStore((state) => state.Organization);
   const setOrganizationName = useOrganizationStore((state) => state.setOrganizationState);
+  const adminsOf = useLoginStore((state) => state.Admins)
+
+  useEffect(() => {
+    const admin = async () => {
+      await adminsOf.forEach((value, key) => {
+        if (value === OrganizationName) {
+          setisAdmin(true);
+          console.log("set to true")
+          return;
+        }
+      })
+    }
+    console.log("here", adminsOf);
+    admin();
+  }, []);
 
   //update important points
-  const handleUpdate = async () => { 
+  const handleUpdate = async () => {
     try {
       console.log("imp before send", important);
       const response = await fetch(`/api/Pages/hottopics?organizationName=${OrganizationName}`, {
@@ -80,8 +96,7 @@ const IndividualPage = () => {
         const response = await fetch(`/api/Pages/page?organizationName=${OrganizationName}`);
         const data = await response.json();
         console.log("data.hot", data.HotTopics);
-        if (data) 
-        {
+        if (data) {
           setImportant(data.HotTopics);
         }
       } catch (error) {
@@ -154,6 +169,36 @@ const IndividualPage = () => {
           src="../../../EsportsClubLogo.jpg"
           alt="logo"
         />
+        <Table hoverable>
+          <Table.Head>
+            <Table.HeadCell>
+              Username
+            </Table.HeadCell>
+            <Table.HeadCell>
+              Name
+            </Table.HeadCell>
+            <Table.HeadCell>
+              Tasks done
+            </Table.HeadCell>
+            <Table.HeadCell>
+              Score
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {progress && progress.map((val, key) => {
+              return (
+                // console.log("reachedddddd");
+                <Table.Row key={key} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  {/* console.log("reacheddd too"); */}
+                  <Table.Cell>{val.username}</Table.Cell>
+                  <Table.Cell>{val.nameofperson}</Table.Cell>
+                  <Table.Cell>{val.name}</Table.Cell>
+                  <Table.Cell>{val.score}</Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+        </Table>
       </div>
       <div className="createtask11">
         <Link to="../TaskCreator">
@@ -165,50 +210,21 @@ const IndividualPage = () => {
         </Link>
       </div>
       {givevalue(members)}
-      <Link to="../MembersList">
-        <Button>Members List</Button>
-      </Link>
-      {/* the below console.log() is just for checking */}
-      {/* {console.log(valueMem)} */}
-      <Link to="/AddEvents">
-        <Button>Add Events</Button>
-      </Link>
-      <Link to="/AddMembers">
-        <Button>Add Members</Button>
-      </Link>
-      <Link to="/AddInductionNotice">
-        <Button>Create Induction Notice</Button>
-      </Link>
-      <Table hoverable>
-        <Table.Head>
-          <Table.HeadCell>
-            Username
-          </Table.HeadCell>
-          <Table.HeadCell>
-            Name
-          </Table.HeadCell>
-          <Table.HeadCell>
-            Tasks done
-          </Table.HeadCell>
-          <Table.HeadCell>
-            Score
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {progress && progress.map((val, key) => {
-            return(
-              // console.log("reachedddddd");
-            <Table.Row key ={key} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                {/* console.log("reacheddd too"); */}
-                <Table.Cell>{val.username}</Table.Cell>
-                <Table.Cell>{val.nameofperson}</Table.Cell>
-                <Table.Cell>{val.name}</Table.Cell>
-                <Table.Cell>{val.score}</Table.Cell>
-            </Table.Row>
-          );
-          })}
-        </Table.Body>
-      </Table>
+      <div className="buttons">
+        <Link to="../MembersList">
+          <Button>Members List</Button>
+        </Link>
+        {isAdmin && <Link to="/AddEvents">
+          <Button>Add Events</Button>
+        </Link>}
+        <Link to="/AddMembers">
+          <Button>Add Members</Button>
+        </Link>
+        <Link to="/AddInductionNotice">
+          <Button>Create Induction Notice</Button>
+        </Link>
+      </div>
+
       {/* <ProgressSheet></ProgressSheet> */}
     </motion.div>
   );

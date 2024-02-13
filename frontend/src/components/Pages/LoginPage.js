@@ -23,21 +23,27 @@ const Login = () => {
   const valueSetUsername = useLoginStore((state) => state.setUsername);
   const organizations = useLoginStore((state) => state.Organizations);
   const setOrganizations = useLoginStore((state) => state.setOrganizations);
+  const adminsOf = useLoginStore((state) => state.Admins);
+  const setadminsOf = useLoginStore((state) => state.setAdmins);
 
   //trying to set progress sheet here only
   const valueSetProgress = useProgressSheetStore((state) => state.setProgressState);
-
   //if the value of the global state of organization is empty, that means that the user has come to the login page by
   //clicking on the login button present on the top right corner. if it is not empty, then it means the user has come
   //from a particular page of an organization and therefore we set the input value of organization in the login form
   //automatically as the name of the organization where the user came from.
   useEffect(() => {
-    if (valueOrganization !== "") {
-      setOrganization(valueOrganization);
+    if (organization === "") {
+      if (valueOrganization !== "") {
+        setOrganization(valueOrganization);
+      }
+    }
+    else {
+      valueOrganizationSet(organization);
     }
     // return () => valueOrganizationSet(""); //commenting the function coz i want the global state to hold the value
     // this runs as a cleanup code, which sets the global variable to empty after the user leaves the page.
-  }, []);
+  }, [organization], []);
 
   useEffect(() => {
     valueOrganizationSet(organization);
@@ -55,10 +61,8 @@ const Login = () => {
 
       //check if the user is a member of the club he is trying to log into
       if (found) {
-        // const responseMembers = await fetch("/api/Members");
         const responseMembers = await fetch(`/api/Members/find?Username=${username}&organisationName=${organization}`)
         const dataMembers = await responseMembers.json();
-        // const newfound = dataMembers.find((user) => user.username === username && user.organisationName === organization);
 
         let newfound = 0;
         if (Object.keys(dataMembers).length > 0) {
@@ -69,11 +73,7 @@ const Login = () => {
         if (newfound) {
           setisVerified(true);
           valueOrganizationSet(organization);
-          console.log(valueOrganization);
           valueSetUsername(username);
-          localStorage.setItem('Username', username);
-          localStorage.setItem('org', valueOrganization);
-          // console.log("this one", localStorage.getItem('org'));
           try {
             const response = await fetch(`/api/Tasks/find?organization=${organization}`);
             const data = await response.json();
@@ -85,21 +85,28 @@ const Login = () => {
           //create a global state consisting of an array of strings, consisting of which all organizations the current
           //user is a part of. We need to check if the current organization he is trying to get into is present in the 
           //array. If yes, give access to the page, else, show the general page. [the check can go to the general page
-        // or this page?]
-        const temp = organizations;
-        try{
-          const response = await fetch(`/api/Members/find/organizations?Username=${username}`);
-          const data = await response.json();
-          data.map((val, key) => {
-            temp.push(val);
-          })
-          setOrganizations(temp);
-          sessionStorage.setItem('orgs', temp);
-          console.log("organizations global", organizations);
-          console.log("new data one", data);
-        }catch(error) {
-          console.log(error);
-        }
+          // or this page?]
+          // let temp = organizations;
+          let temptemp = new Map();
+          try {
+            const response = await fetch(`/api/Members/find/organizations?Username=${username}`);
+            const data = await response.json();
+
+            //pushing data to a map
+            data.map((val, key) => {
+              temptemp.set(val.organisationName, 1);
+            })
+            for (let [key, value] of temptemp) {
+              organizations.add(key);
+            }
+            const response2 = await fetch(`/api/Members/find/organizations/admin?Username=${username}`);
+            const data2 = await response2.json();
+            data2.map((val, key) => {
+              adminsOf.add(val.organisationName);
+            })
+          } catch (error) {
+            console.log(error);
+          }
         } else {
           setisVerified(false);
         }
@@ -150,13 +157,13 @@ const Login = () => {
         </div>
         <Button type="submit" onClick={(e) => signincheck(e)}>Submit</Button>
         {isVerified}
-       {isVerified && <Link to="/AllPage">
-          <Button color = "success" className="submit"> Submit</Button>
+        {isVerified && <Link to="/AllPage">
+          <Button color="success" className="submit"> Submit</Button>
         </Link>}
         <Link to="/SignUpPage">
-          <Button color = "blue" className="signup-button">Click here to Sign Up!</Button>
+          <Button color="blue" className="signup-button">Click here to Sign Up!</Button>
         </Link>
-      {isVerified === false && <p>Either the details are incorrect or you are not a member. Please check once again!</p>} 
+        {isVerified === false && <p>Either the details are incorrect or you are not a member. Please check once again!</p>}
       </form>
     </div>
   );

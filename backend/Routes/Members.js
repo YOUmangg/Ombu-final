@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
   res.status(200).json(member);
 });
 
+//getting the details of a member
 router.get("/find", async(req, res) => {
   const search = { "Username": req.query.Username, "organisationName": req.query.organisationName };
   try{
@@ -25,6 +26,7 @@ router.get("/find", async(req, res) => {
   }
 })
 
+//organizations the logging in user is a part of
 router.get("/find/organizations", async(req, res) => {
   const search = {"Username" : req.query.Username};
   try {
@@ -36,6 +38,19 @@ router.get("/find/organizations", async(req, res) => {
   }
 })
 
+//isAdmin array
+router.get("/find/organizations/admin", async(req, res) => {
+  const search = {"Username" : req.query.Username};
+  try {
+    const orgs = await Members.find({"username" : req.query.Username, "isAdmin" : true}, {organisationName: 1});
+    res.status(200).json(orgs);
+  }catch(error)
+  {
+    res.status(500).json({error: "Internal Server Error"});
+  }
+})
+
+//MembersList of an organization
 router.get("/MembersList", async (req, res) => {
   const org = req.query.OrganizationName;
   try{
@@ -47,6 +62,7 @@ router.get("/MembersList", async (req, res) => {
   }
 });
 
+//adding a new member
 router.post("/", async (req, res) => {
   const { name, username, roles, phonenumber, isAdmin, organisationName } = req.body;
   try {
